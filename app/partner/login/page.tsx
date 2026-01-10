@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import { loginPartner } from '../actions'
 
 export default function PartnerLoginPage() {
     const [email, setEmail] = useState('')
@@ -13,19 +14,45 @@ export default function PartnerLoginPage() {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault()
+    const handleLogin = async (e?: React.FormEvent) => {
+        if (e) e.preventDefault()
+        if (!email) {
+            alert('이메일을 입력해주세요.')
+            return
+        }
+
         setLoading(true)
-        performLogin()
+        try {
+            const result = await loginPartner(email)
+
+            if (result.success) {
+                alert(result.message)
+                router.push('/partner/dashboard')
+            } else {
+                alert(result.message)
+            }
+        } catch (error) {
+            alert('오류가 발생했습니다.')
+        } finally {
+            setLoading(false)
+        }
     }
 
-    const performLogin = () => {
-        // Mock Login for Demo
-        setTimeout(() => {
-            alert('로그인 성공')
-            router.push('/partner/dashboard')
-            setLoading(false)
-        }, 1000)
+    const handleSocialLogin = () => {
+        // Simulation for Social Login: Prompt for email to test validation
+        const verifiedEmail = prompt("테스트할 파트너 계정의 이메일을 입력하세요:", "partner@example.com")
+        if (verifiedEmail) {
+            setEmail(verifiedEmail)
+            // Trigger login logic with the input email
+            loginPartner(verifiedEmail).then(result => {
+                if (result.success) {
+                    alert(result.message)
+                    router.push('/partner/dashboard')
+                } else {
+                    alert(result.message)
+                }
+            })
+        }
     }
 
     return (
@@ -56,7 +83,7 @@ export default function PartnerLoginPage() {
                             />
                         </div>
                         <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? '로그인 중...' : '이메일로 로그인'}
+                            {loading ? '로그인 확인 중...' : '이메일로 로그인'}
                         </Button>
                     </form>
 
@@ -66,7 +93,7 @@ export default function PartnerLoginPage() {
                         </div>
                         <div className="relative flex justify-center text-xs uppercase">
                             <span className="bg-background px-2 text-muted-foreground">
-                                또는 소셜 로그인
+                                또는 소셜 로그인 (승인여부 확인)
                             </span>
                         </div>
                     </div>
@@ -74,14 +101,14 @@ export default function PartnerLoginPage() {
                     <div className="space-y-2">
                         <Button
                             className="w-full bg-[#FAE100] hover:bg-[#FAE100]/90 text-black font-bold"
-                            onClick={() => performLogin()}
+                            onClick={handleSocialLogin}
                             type="button"
                         >
                             카카오로 시작하기
                         </Button>
                         <Button
                             className="w-full bg-[#03C75A] hover:bg-[#03C75A]/90 font-bold"
-                            onClick={() => performLogin()}
+                            onClick={handleSocialLogin}
                             type="button"
                         >
                             네이버로 시작하기
