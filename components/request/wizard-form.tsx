@@ -400,7 +400,7 @@ export default function ChatWizard() {
 
 
     return (
-        <div className="max-w-md mx-auto h-[calc(100vh-64px)] flex flex-col bg-white shadow-xl">
+        <div className="max-w-md mx-auto h-[calc(100dvh-64px)] flex flex-col bg-white shadow-xl">
             {/* Header */}
             <div className="h-14 border-b flex items-center justify-center font-bold bg-white z-10">
                 AI 스마트 견적 (비회원 가능)
@@ -441,7 +441,7 @@ export default function ChatWizard() {
 
                 {/* Input Area (Dynamic) */}
                 {!loading && (
-                    <div className="mt-4 pb-4">
+                    <div className="mt-4 pb-80">
                         {currentStep === 'service' && <StepService />}
                         {currentStep === 'building' && <StepBuilding />}
                         {currentStep === 'room' && <StepCount field="roomCount" />}
