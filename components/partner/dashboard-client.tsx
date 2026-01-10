@@ -131,8 +131,8 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                 {selectedRequest ? (
                     <div className="max-w-3xl mx-auto space-y-6 pb-10">
                         {/* Header Section */}
-                        <div className="bg-white rounded-[24px] p-8 shadow-[0_2px_15px_rgba(0,0,0,0.03)] border-none">
-                            <div className="flex items-center gap-2 mb-4">
+                        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] border-none">
+                            <div className="flex items-center gap-2 mb-3">
                                 <div className="px-3 py-1 rounded-full bg-[#EFEBFF] text-[#7353EA] text-xs font-bold">
                                     {selectedRequest.service_type}
                                 </div>
@@ -140,7 +140,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     ID: {selectedRequest.id.slice(0, 8)}
                                 </span>
                             </div>
-                            <h1 className="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                            <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
                                 {selectedRequest.sq_ft}평 {selectedRequest.building_type || '건물'} 청소 견적 요청
                             </h1>
                             <p className="flex items-center gap-2 text-gray-500 text-lg font-medium">
@@ -150,13 +150,13 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                         </div>
 
                         {/* Customer Info Card (Clean & App-like) */}
-                        <div className="bg-white rounded-[24px] p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] relative overflow-hidden">
+                        <div className="bg-white rounded-2xl p-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)] relative overflow-hidden">
                             <div className="absolute right-0 top-0 opacity-[0.03] transform translate-x-1/4 -translate-y-1/4">
-                                <User className="w-48 h-48 text-gray-900" />
+                                <User className="w-32 h-32 text-gray-900" />
                             </div>
-                            <div className="flex items-center gap-5 relative z-10">
-                                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
-                                    <User className="w-8 h-8 text-[#7353EA]" />
+                            <div className="flex items-center gap-4 relative z-10">
+                                <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
+                                    <User className="w-6 h-6 text-[#7353EA]" />
                                 </div>
                                 <div>
                                     <h3 className="text-gray-500 text-sm font-medium mb-1">견적 요청 고객</h3>
@@ -195,8 +195,8 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     className="col-span-2"
                                 />
 
-                                <div className="bg-white p-6 rounded-[24px] shadow-[0_2px_15px_rgba(0,0,0,0.03)] col-span-2">
-                                    <div className="flex items-center gap-3 mb-4">
+                                <div className="bg-white p-5 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.03)] col-span-2">
+                                    <div className="flex items-center gap-3 mb-3">
                                         <div className="p-2 bg-purple-50 rounded-xl">
                                             <CheckCircle2 className="w-5 h-5 text-purple-600" />
                                         </div>
@@ -219,8 +219,8 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     value={selectedRequest.target_date || '날짜 협의 가능'}
                                 />
 
-                                <div className="bg-white p-6 rounded-[24px] shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex flex-col justify-center">
-                                    <p className="text-sm text-gray-500 font-medium mb-3 flex items-center gap-2">
+                                <div className="bg-white p-5 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                                    <p className="text-sm text-gray-500 font-medium mb-2 flex items-center gap-2">
                                         <AlertCircle className="w-4 h-4 text-orange-400" />
                                         특이사항
                                     </p>
@@ -237,12 +237,12 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-[24px] p-8 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
-                            <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                            <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
                                 <span className="w-1.5 h-6 rounded-full bg-gray-200"></span>
                                 고객 추가 전달사항
                             </h4>
-                            <div className="bg-gray-50 rounded-2xl p-6">
+                            <div className="bg-gray-50 rounded-xl p-4">
                                 <p className="text-gray-600 whitespace-pre-wrap leading-relaxed font-medium">
                                     {selectedRequest.description || "특별히 남기신 내용이 없습니다."}
                                 </p>
@@ -336,13 +336,13 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
 
 function DetailCard({ icon, label, value, className = '' }: { icon: React.ReactNode, label: string, value: string, className?: string }) {
     return (
-        <div className={`bg-white p-6 rounded-[24px] shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex items-start gap-4 ${className}`}>
-            <div className="p-3 bg-gray-50 rounded-xl shrink-0">
+        <div className={`bg-white p-4 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex items-start gap-3 ${className}`}>
+            <div className="p-2.5 bg-gray-50 rounded-xl shrink-0">
                 {icon}
             </div>
             <div>
-                <p className="text-sm text-gray-400 font-medium mb-1">{label}</p>
-                <p className="text-gray-900 font-bold text-lg tracking-tight">{value}</p>
+                <p className="text-xs text-gray-400 font-medium mb-0.5">{label}</p>
+                <p className="text-gray-900 font-bold text-base tracking-tight">{value}</p>
             </div>
         </div>
     )
