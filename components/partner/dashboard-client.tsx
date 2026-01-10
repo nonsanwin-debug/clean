@@ -308,29 +308,29 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             </div>
                         </div>
 
-                        <div className="p-5 border-t border-gray-100 bg-gray-50/50 backdrop-blur pb-6">
-                            <Button
-                                className="w-full h-12 text-base font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl"
-                                onClick={handleSendQuote}
-                                disabled={sending}
-                            >
-                                {sending ? (
-                                    <span className="flex items-center gap-2">발송 중...</span>
-                                ) : (
-                                    <span className="flex items-center gap-2">
-                                        <Send className="w-5 h-5" /> 견적서 무료 발송하기
-                                    </span>
-                                )}
-                            </Button>
-                        </div>
+                        <Button
+                            className="w-full h-12 text-base font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl mt-4"
+                            onClick={handleSendQuote}
+                            disabled={sending}
+                        >
+                            {sending ? (
+                                <span className="flex items-center gap-2">발송 중...</span>
+                            ) : (
+                                <span className="flex items-center gap-2">
+                                    <Send className="w-5 h-5" /> 견적서 무료 발송하기
+                                </span>
+                            )}
+                        </Button>
+                        <div className="h-6" /> {/* Bottom spacer */}
                     </div>
                 ) : (
                     <div className="flex h-full items-center justify-center text-gray-400 text-sm p-8 text-center bg-gray-50/50">
                         선택된 요청이 없습니다.
                     </div>
-                )}
-            </div>
-        </div>
+                )
+                }
+            </div >
+        </div >
     )
 }
 
