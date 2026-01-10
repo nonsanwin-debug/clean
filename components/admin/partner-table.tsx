@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { approvePartner } from "@/app/partner/actions"
 import { format } from "date-fns"
+import Link from "next/link"
 
 type Partner = {
     id: string
@@ -50,7 +51,9 @@ export function PartnerTable({ partners }: { partners: Partner[] }) {
                                 {format(new Date(partner.created_at), 'yyyy-MM-dd HH:mm')}
                             </td>
                             <td className="px-6 py-4">
-                                <div className="font-medium">{partner.name}</div>
+                                <Link href={`/admin/partners/${partner.id}`} className="font-medium hover:underline text-blue-600 block">
+                                    {partner.name}
+                                </Link>
                                 <div className="text-xs text-slate-500">{partner.phone}</div>
                             </td>
                             <td className="px-6 py-4">

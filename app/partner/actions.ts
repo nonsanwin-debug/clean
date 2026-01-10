@@ -16,8 +16,8 @@ export async function submitPartnerApplication(data: any) {
                 experience: data.experience,
                 categories: data.categories || [],
                 services: data.services || [],
-                email: data.email,
-                password: data.password || null, // Optional for social login
+                email: data.email?.trim(), // Ensure email is trimmed
+                password: data.password || null,
                 provider: data.loginMethod || 'email',
                 status: 'pending'
             })
@@ -27,7 +27,7 @@ export async function submitPartnerApplication(data: any) {
             return { success: false, message: '신청 중 오류가 발생했습니다.' }
         }
 
-        revalidatePath('/admin') // Update admin dashboard
+        revalidatePath('/admin')
         return { success: true, message: '파트너 신청이 완료되었습니다.' }
     } catch (e) {
         return { success: false, message: '서버 오류가 발생했습니다.' }
@@ -56,10 +56,6 @@ export async function approvePartner(partnerId: string) {
 export async function sendQuote(data: { requestId: string, price: number, message: string }) {
     const supabase = await createClient()
 
-    // In a real app, we would get the partnerId from the authenticated user session.
-    // For this demo, we'll assume the quotes can be sent without strict partner_id linkage 
-    // or we'll omit it for now if the table allows (nullable).
-
     try {
         const { error } = await supabase
             .from('quotes')
@@ -87,18 +83,26 @@ export async function loginPartner(email: string) {
     const supabase = await createClient()
 
     try {
+        // Trim email to avoid whitespace issues
+        const cleanEmail = email.trim()
+
         const { data: partner, error } = await supabase
             .from('partners')
             .select('status, name')
-            .eq('email', email)
-            .single()
+            .eq('email', cleanEmail)
+            .maybeSingle() // Use maybeSingle to avoid errors on duplicates
 
-        if (error || !partner) {
+        if (error) {
+            console.error('Login Error:', error)
+            return { success: false, message: '서버 오류가 발생했습니다. (DB Connection)' }
+        }
+
+        if (!partner) {
             return { success: false, message: '등록되지 않은 이메일입니다.' }
         }
 
         if (partner.status === 'pending') {
-            return { success: false, message: `안녕하세요 ${partner.name}님,\n아직 관리자 승인 대기 중입니다.\n승인이 완료되면 문자 메시지로 알려드립니다.` }
+            return { success: false, message: `안녕하세요 ${partner.name}님,\n아직 관리자 승인 대기 중입니다.\n승인이 완료되면 연락드리겠습니다.` }
         }
 
         if (partner.status === 'approved') {
