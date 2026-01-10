@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { sendQuote } from '../actions'
-import { MapPin, Calendar, CheckCircle2, DollarSign, Send } from 'lucide-react'
+import { sendQuote } from '@/app/partner/actions'
+import { MapPin, Calendar, CheckCircle, DollarSign, Send } from 'lucide-react'
 
 // Types (simplified for demo)
 type Request = {
@@ -137,7 +137,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                         </div>
 
                         <div className="bg-blue-50 p-4 rounded-xl flex items-start gap-3">
-                            <CheckCircle2 className="w-5 h-5 text-blue-600 mt-0.5" />
+                            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
                             <div>
                                 <h4 className="font-bold text-blue-900">고객님 정보</h4>
                                 <p className="text-sm text-blue-700 mt-1">
