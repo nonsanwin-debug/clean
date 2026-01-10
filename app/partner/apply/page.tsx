@@ -9,6 +9,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter }
 import { submitPartnerApplication } from '../actions'
 import { Label } from '@/components/ui/label'
 
+// Partner Application Page - Single Step Form
 export default function PartnerApplyPage() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
