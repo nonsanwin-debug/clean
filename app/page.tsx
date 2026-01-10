@@ -31,9 +31,9 @@ export default function HomePage() {
           </Button>
         </div>
 
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
           {services.map((service, idx) => (
-            <Link href={`/request?category=${service.name}`} key={idx} className="flex flex-col items-center gap-2 group cursor-pointer p-4 hover:bg-gray-50 rounded-xl transition-colors">
+            <Link href={`/request?category=${service.name}`} key={idx} className="flex flex-col items-center gap-2 group cursor-pointer p-4 hover:bg-gray-50 rounded-xl transition-colors min-w-[100px]">
               <div className={`w-12 h-12 rounded-xl ${service.bg} flex items-center justify-center mb-1 group-hover:scale-110 transition-transform`}>
                 <service.icon className={`w-6 h-6 ${service.color}`} />
               </div>
