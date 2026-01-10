@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { submitRequest } from './actions'
+import { submitRequest } from '@/app/request/actions'
 import { Loader2, Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -253,8 +253,8 @@ export default function ChatWizard() {
                         className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
                         <div className={`max-w-[80%] rounded-2xl p-4 ${msg.role === 'user'
-                                ? 'bg-[#7353EA] text-white rounded-tr-none'
-                                : 'bg-gray-100 text-gray-800 rounded-tl-none'
+                            ? 'bg-[#7353EA] text-white rounded-tr-none'
+                            : 'bg-gray-100 text-gray-800 rounded-tl-none'
                             }`}>
                             {msg.text}
                         </div>
