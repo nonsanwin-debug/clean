@@ -8,7 +8,7 @@ import { submitRequest } from '@/app/request/actions'
 import { Loader2, Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-type Step = 'service' | 'building' | 'room' | 'bathroom' | 'veranda' | 'features' | 'extras' | 'area' | 'date' | 'location' | 'contact' | 'review'
+type Step = 'service' | 'building' | 'room' | 'bathroom' | 'veranda' | 'features' | 'extras' | 'area' | 'date' | 'location' | 'maxQuotes' | 'contact' | 'review'
 
 const QUESTIONS = {
     service: "어떤 서비스를 원하시나요?",
@@ -21,6 +21,7 @@ const QUESTIONS = {
     area: "공급면적(평)을 알면 정확한 견적을 받을 수 있어요.",
     date: "청소 희망일은 언제인가요?",
     location: "서비스 받으실 지역(동/읍/면)을 알려주세요.",
+    maxQuotes: "몇 군데 업체의 견적을 받고 싶으신가요?",
     contact: "견적을 받아보실 연락처를 입력해주세요."
 }
 
@@ -50,7 +51,7 @@ export default function ChatWizard() {
         setHistory(prev => [...prev, { role: 'user', text: displayText || value.toString() }])
 
         // Move to Next Step
-        const steps: Step[] = ['service', 'building', 'room', 'bathroom', 'veranda', 'features', 'extras', 'area', 'date', 'location', 'contact', 'review']
+        const steps: Step[] = ['service', 'building', 'room', 'bathroom', 'veranda', 'features', 'extras', 'area', 'date', 'location', 'maxQuotes', 'contact', 'review']
         const currentIndex = steps.indexOf(currentStep)
 
         if (currentIndex < steps.length - 1) {
@@ -235,6 +236,17 @@ export default function ChatWizard() {
         )
     }
 
+    // New Step: Max Quotes
+    const StepMaxQuotes = () => (
+        <div className="flex flex-col gap-2">
+            {[3, 5, 7, 10].map(n => (
+                <Button key={n} variant="outline" className="justify-start h-12" onClick={() => handleAnswer('maxQuotes', n, `${n}군데`)}>
+                    최대 {n}군데 견적 받기
+                </Button>
+            ))}
+        </div>
+    )
+
 
     return (
         <div className="max-w-md mx-auto h-[calc(100vh-64px)] flex flex-col bg-white shadow-xl">
@@ -281,6 +293,7 @@ export default function ChatWizard() {
                         {currentStep === 'area' && <StepArea />}
                         {currentStep === 'date' && <StepDate />}
                         {currentStep === 'location' && <StepLocation />}
+                        {currentStep === 'maxQuotes' && <StepMaxQuotes />}
                         {currentStep === 'contact' && <StepContact />}
                     </div>
                 )}
