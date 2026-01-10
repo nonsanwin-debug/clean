@@ -27,10 +27,13 @@ export async function submitRequest(data: any) {
         building_type: data.buildingType,
         room_count: data.roomCount,
         bathroom_count: data.bathroomCount,
+        room_count: data.roomCount,
+        bathroom_count: data.bathroomCount,
         veranda_count: data.verandaCount,
         features: data.features || [],
         extra_services: data.extraServices || [],
-        date_type: data.dateType
+        date_type: data.dateType,
+        max_quotes: data.maxQuotes // Added max_quotes
     }
 
     const supabase = await createClient()
