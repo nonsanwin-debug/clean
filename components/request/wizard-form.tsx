@@ -122,37 +122,70 @@ export default function ChatWizard() {
 
     // --- Steps UI Components ---
 
+    // Shared Button Style
+    const OptionButton = ({ children, onClick, active }: { children: React.ReactNode, onClick: () => void, active?: boolean }) => (
+        <Button
+            variant="ghost"
+            className={`
+                h-14 text-lg justify-start px-6 rounded-xl border-2 transition-all duration-200
+                ${active
+                    ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA] font-bold shadow-sm'
+                    : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100 hover:scale-[1.02]'
+                }
+            `}
+            onClick={onClick}
+        >
+            {children}
+        </Button>
+    )
+
     // 1. Service
     const StepService = () => (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
             {['이사청소', '입주청소', '거주청소', '부분청소', '기타'].map(opt => (
-                <Button key={opt} variant="outline" className="justify-start h-12 text-lg" onClick={() => handleAnswer('serviceType', opt)}>
+                <OptionButton key={opt} onClick={() => handleAnswer('serviceType', opt)}>
                     {opt}
-                </Button>
+                </OptionButton>
             ))}
         </div>
     )
 
     // 2. Building
     const StepBuilding = () => (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-3">
             {['아파트', '빌라/연립', '오피스텔', '단독주택', '원룸', '사무실/상가'].map(opt => (
-                <Button key={opt} variant="outline" className="h-12" onClick={() => handleAnswer('buildingType', opt)}>
-                    {opt}
+                <Button
+                    key={opt}
+                    variant="ghost"
+                    className="h-24 flex flex-col items-center justify-center gap-2 bg-gray-50 rounded-xl hover:bg-[#F0EBFF] hover:text-[#7353EA] hover:scale-105 transition-all duration-200 border-2 border-transparent hover:border-[#7353EA]"
+                    onClick={() => handleAnswer('buildingType', opt)}
+                >
+                    <span className="text-lg font-bold">{opt}</span>
                 </Button>
             ))}
         </div>
     )
 
     // 3,4,5. Counts (Generic)
-    const StepCount = ({ field, label }: { field: string, label: string }) => (
-        <div className="flex flex-col gap-2">
+    const StepCount = ({ field }: { field: string }) => (
+        <div className="grid grid-cols-3 gap-3">
             {[1, 2, 3, 4, 5].map(n => (
-                <Button key={n} variant="outline" className="justify-start h-12" onClick={() => handleAnswer(field, `${n}개`)}>
+                <Button
+                    key={n}
+                    variant="ghost"
+                    className="h-16 text-xl font-bold bg-gray-50 rounded-xl hover:bg-[#F0EBFF] hover:text-[#7353EA] border-2 border-transparent hover:border-[#7353EA] transition-all"
+                    onClick={() => handleAnswer(field, `${n}개`)}
+                >
                     {n}개
                 </Button>
             ))}
-            <Button variant="outline" className="justify-start h-12" onClick={() => handleAnswer(field, '없음')}>없음</Button>
+            <Button
+                variant="ghost"
+                className="h-16 text-lg font-medium bg-gray-50 rounded-xl hover:bg-gray-100 text-gray-500"
+                onClick={() => handleAnswer(field, '없음')}
+            >
+                없음
+            </Button>
         </div>
     )
 
@@ -167,20 +200,23 @@ export default function ChatWizard() {
         }
 
         return (
-            <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-3">
                     {options.map(opt => (
                         <Button
                             key={opt}
-                            variant={selected.includes(opt) ? "default" : "outline"}
-                            className="h-12"
+                            variant="ghost"
+                            className={`h-24 text-lg font-bold rounded-xl border-2 transition-all ${selected.includes(opt)
+                                    ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA]'
+                                    : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100'
+                                }`}
                             onClick={() => toggle(opt)}
                         >
                             {opt}
                         </Button>
                     ))}
                 </div>
-                <Button className="w-full" onClick={() => handleAnswer('features', selected, selected.length ? selected.join(', ') : '해당 없음')}>
+                <Button className="w-full h-14 text-lg bg-[#7353EA] hover:bg-[#7353EA]/90" onClick={() => handleAnswer('features', selected, selected.length ? selected.join(', ') : '해당 없음')}>
                     {selected.length === 0 ? "해당 없음 (다음)" : "선택 완료"}
                 </Button>
             </div>
@@ -198,20 +234,23 @@ export default function ChatWizard() {
         }
 
         return (
-            <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-3">
                     {options.map(opt => (
                         <Button
                             key={opt}
-                            variant={selected.includes(opt) ? "default" : "outline"}
-                            className="h-12"
+                            variant="ghost"
+                            className={`h-16 text-md font-bold rounded-xl border-2 transition-all ${selected.includes(opt)
+                                    ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA]'
+                                    : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100'
+                                }`}
                             onClick={() => toggle(opt)}
                         >
                             {opt}
                         </Button>
                     ))}
                 </div>
-                <Button className="w-full" onClick={() => handleAnswer('extraServices', selected, selected.length ? selected.join(', ') : '필요 없음')}>
+                <Button className="w-full h-14 text-lg bg-[#7353EA] hover:bg-[#7353EA]/90" onClick={() => handleAnswer('extraServices', selected, selected.length ? selected.join(', ') : '필요 없음')}>
                     {selected.length === 0 ? "필요 없음 (다음)" : "선택 완료"}
                 </Button>
             </div>
@@ -355,8 +394,8 @@ export default function ChatWizard() {
                         className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
                     >
                         <div className={`max-w-[85%] px-5 py-3 text-[15px] leading-relaxed shadow-sm ${msg.role === 'user'
-                                ? 'bg-[#7353EA] text-white rounded-2xl rounded-tr-sm'
-                                : 'bg-white border text-gray-800 rounded-2xl rounded-tl-sm'
+                            ? 'bg-[#7353EA] text-white rounded-2xl rounded-tr-sm'
+                            : 'bg-white border text-gray-800 rounded-2xl rounded-tl-sm'
                             }`}>
                             {msg.text}
                         </div>
