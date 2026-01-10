@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "../ui/textarea"
 import { sendQuote } from '@/app/partner/actions'
 import {
     MapPin, Calendar, CheckCircle2, DollarSign, Send,
@@ -131,40 +131,40 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                 {selectedRequest ? (
                     <div className="max-w-3xl mx-auto space-y-6 pb-10">
                         {/* Header Section */}
-                        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] border-none">
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="px-3 py-1 rounded-full bg-[#EFEBFF] text-[#7353EA] text-xs font-bold">
+                        <div className="bg-white rounded-2xl p-4 shadow-[0_2px_15px_rgba(0,0,0,0.03)] border-none">
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="px-2.5 py-0.5 rounded-full bg-[#EFEBFF] text-[#7353EA] text-[11px] font-bold">
                                     {selectedRequest.service_type}
                                 </div>
-                                <span className="text-gray-300 text-xs font-mono">
+                                <span className="text-gray-300 text-[11px] font-mono">
                                     ID: {selectedRequest.id.slice(0, 8)}
                                 </span>
                             </div>
-                            <h1 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
+                            <h1 className="text-xl font-extrabold text-gray-900 mb-1 tracking-tight">
                                 {selectedRequest.sq_ft}평 {selectedRequest.building_type || '건물'} 청소 견적 요청
                             </h1>
-                            <p className="flex items-center gap-2 text-gray-500 text-lg font-medium">
-                                <MapPin className="w-5 h-5 text-gray-300" />
+                            <p className="flex items-center gap-1.5 text-gray-500 text-sm font-medium">
+                                <MapPin className="w-4 h-4 text-gray-300" />
                                 {selectedRequest.location}
                             </p>
                         </div>
 
                         {/* Customer Info Card (Clean & App-like) */}
-                        <div className="bg-white rounded-2xl p-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)] relative overflow-hidden">
+                        <div className="bg-white rounded-2xl p-4 shadow-[0_2px_15px_rgba(0,0,0,0.03)] relative overflow-hidden">
                             <div className="absolute right-0 top-0 opacity-[0.03] transform translate-x-1/4 -translate-y-1/4">
-                                <User className="w-32 h-32 text-gray-900" />
+                                <User className="w-24 h-24 text-gray-900" />
                             </div>
                             <div className="flex items-center gap-4 relative z-10">
-                                <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
-                                    <User className="w-6 h-6 text-[#7353EA]" />
+                                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
+                                    <User className="w-5 h-5 text-[#7353EA]" />
                                 </div>
                                 <div>
-                                    <h3 className="text-gray-500 text-sm font-medium mb-1">견적 요청 고객</h3>
-                                    <p className="text-2xl font-bold flex items-center gap-2 text-gray-900">
+                                    <h3 className="text-gray-500 text-xs font-medium mb-0.5">견적 요청 고객</h3>
+                                    <p className="text-lg font-bold flex items-center gap-2 text-gray-900">
                                         {selectedRequest.customer_name} 고객님
                                     </p>
-                                    <p className="text-gray-500 flex items-center gap-2 text-sm mt-1">
-                                        <MapPin className="w-3.5 h-3.5" />
+                                    <p className="text-gray-500 flex items-center gap-1.5 text-xs mt-0.5">
+                                        <MapPin className="w-3 h-3" />
                                         {selectedRequest.location} 거주
                                     </p>
                                 </div>
@@ -237,12 +237,12 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-2xl p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
-                            <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                <span className="w-1.5 h-6 rounded-full bg-gray-200"></span>
+                        <div className="bg-white rounded-2xl p-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                            <h4 className="font-bold text-gray-900 mb-2 flex items-center gap-2 text-sm">
+                                <span className="w-1 h-4 rounded-full bg-gray-200"></span>
                                 고객 추가 전달사항
                             </h4>
-                            <div className="bg-gray-50 rounded-xl p-4">
+                            <div className="bg-gray-50 rounded-xl p-3">
                                 <p className="text-gray-600 whitespace-pre-wrap leading-relaxed font-medium">
                                     {selectedRequest.description || "특별히 남기신 내용이 없습니다."}
                                 </p>
@@ -264,29 +264,29 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                 {selectedRequest ? (
                     <div className="flex flex-col h-full bg-white">
                         <div className="p-6 border-b border-gray-100 sticky top-0 bg-white/95 backdrop-blur z-10">
-                            <h3 className="font-bold text-xl flex items-center gap-2 text-gray-900">
-                                <DollarSign className="w-6 h-6 text-[#7353EA]" />
+                            <h3 className="font-bold text-lg flex items-center gap-2 text-gray-900">
+                                <DollarSign className="w-5 h-5 text-[#7353EA]" />
                                 견적서 작성
                             </h3>
-                            <p className="text-sm text-gray-500 mt-1">고객님께 제안할 금액을 입력해주세요.</p>
+                            <p className="text-xs text-gray-500 mt-0.5">고객님께 제안할 금액을 입력해주세요.</p>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
-                            <div className="space-y-5">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-900">총 예상 금액 (VAT 포함)</label>
-                                    <div className="relative transform transition-all focus-within:scale-[1.02]">
+                        <div className="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar">
+                            <div className="space-y-4">
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-bold text-gray-900">총 예상 금액 (VAT 포함)</label>
+                                    <div className="relative transform transition-all focus-within:scale-[1.01]">
                                         <Input
                                             type="text"
                                             placeholder="0"
-                                            className="h-16 pl-10 font-bold text-3xl border-gray-100 bg-gray-50 focus:bg-[#F8F7FF] focus:border-[#7353EA] focus:ring-0 transition-all rounded-2xl"
+                                            className="h-12 pl-8 font-bold text-xl border-gray-100 bg-gray-50 focus:bg-[#F8F7FF] focus:border-[#7353EA] focus:ring-0 transition-all rounded-xl"
                                             value={price}
                                             onChange={(e) => {
                                                 const val = e.target.value.replace(/[^0-9]/g, '');
                                                 setPrice(val ? parseInt(val).toLocaleString() : '');
                                             }}
                                         />
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl font-medium">₩</span>
+                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">₩</span>
                                     </div>
                                     <div className="text-xs text-blue-600 font-medium flex items-center gap-1">
                                         <div className="w-1 h-1 rounded-full bg-blue-600" />
@@ -296,11 +296,11 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
 
                                 <div className="h-px bg-gray-100" />
 
-                                <div className="space-y-3">
-                                    <label className="text-sm font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
                                     <Textarea
                                         placeholder={`예시)\n안녕하세요, 친환경 세제만을 사용하는 청소마스터입니다.\n곰팡이 제거 무료 서비스 포함 위 가격으로 진행 가능합니다.`}
-                                        className="h-64 resize-none p-5 text-base border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-2xl"
+                                        className="h-40 resize-none p-4 text-sm border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-xl"
                                         value={message}
                                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                                     />
@@ -308,9 +308,9 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             </div>
                         </div>
 
-                        <div className="p-6 border-t border-gray-100 bg-gray-50/50 backdrop-blur pb-8">
+                        <div className="p-5 border-t border-gray-100 bg-gray-50/50 backdrop-blur pb-6">
                             <Button
-                                className="w-full h-14 text-lg font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl"
+                                className="w-full h-12 text-base font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl"
                                 onClick={handleSendQuote}
                                 disabled={sending}
                             >
