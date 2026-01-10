@@ -207,8 +207,8 @@ export default function ChatWizard() {
                             key={opt}
                             variant="ghost"
                             className={`h-24 text-lg font-bold rounded-xl border-2 transition-all ${selected.includes(opt)
-                                    ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA]'
-                                    : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100'
+                                ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA]'
+                                : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100'
                                 }`}
                             onClick={() => toggle(opt)}
                         >
@@ -241,8 +241,8 @@ export default function ChatWizard() {
                             key={opt}
                             variant="ghost"
                             className={`h-16 text-md font-bold rounded-xl border-2 transition-all ${selected.includes(opt)
-                                    ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA]'
-                                    : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100'
+                                ? 'border-[#7353EA] bg-[#F0EBFF] text-[#7353EA]'
+                                : 'border-transparent bg-gray-50 text-gray-600 hover:bg-gray-100'
                                 }`}
                             onClick={() => toggle(opt)}
                         >
@@ -422,9 +422,9 @@ export default function ChatWizard() {
                     <div className="mt-4 pb-4">
                         {currentStep === 'service' && <StepService />}
                         {currentStep === 'building' && <StepBuilding />}
-                        {currentStep === 'room' && <StepCount field="roomCount" label="방" />}
-                        {currentStep === 'bathroom' && <StepCount field="bathroomCount" label="화장실" />}
-                        {currentStep === 'veranda' && <StepCount field="verandaCount" label="베란다" />}
+                        {currentStep === 'room' && <StepCount field="roomCount" />}
+                        {currentStep === 'bathroom' && <StepCount field="bathroomCount" />}
+                        {currentStep === 'veranda' && <StepCount field="verandaCount" />}
                         {currentStep === 'features' && <StepFeatures />}
                         {currentStep === 'extras' && <StepExtras />}
                         {currentStep === 'area' && <StepArea />}
