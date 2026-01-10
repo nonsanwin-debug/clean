@@ -48,8 +48,8 @@ const QUESTIONS = {
 
 export default function ChatWizard() {
     const router = useRouter()
-    const [history, setHistory] = useState<{ role: 'bot' | 'user', text: string | React.ReactNode }[]>([
-        { role: 'bot', text: QUESTIONS.service }
+    const [history, setHistory] = useState<{ role: 'bot' | 'user', text: string | React.ReactNode, step?: Step }[]>([
+        { role: 'bot', text: QUESTIONS.service, step: 'service' }
     ])
     const [currentStep, setCurrentStep] = useState<Step>('service')
     const [formData, setFormData] = useState<any>({
@@ -63,13 +63,27 @@ export default function ChatWizard() {
         endRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [history, currentStep])
 
+    const jumpToStep = (targetStep: Step) => {
+        // 1. Set the current step back to the target
+        setCurrentStep(targetStep)
+
+        // 2. Rewind history: Keep everything UP TO the bot's question for this step
+        // We find the index of the first message where (role='bot' AND step=targetStep)
+        // And we keep that message, but discard everything after (including the user's previous answer)
+        const targetIndex = history.findIndex(msg => msg.role === 'bot' && msg.step === targetStep)
+
+        if (targetIndex !== -1) {
+            setHistory(prev => prev.slice(0, targetIndex + 1))
+        }
+    }
+
     const handleAnswer = (key: string, value: any, displayText?: string) => {
         // Update Form Data
         const newData = { ...formData, [key]: value }
         setFormData(newData)
 
-        // Show User Bubble
-        setHistory(prev => [...prev, { role: 'user', text: displayText || value.toString() }])
+        // Show User Bubble with current step tag
+        setHistory(prev => [...prev, { role: 'user', text: displayText || value.toString(), step: currentStep }])
 
         // Move to Next Step
         const steps: Step[] = ['service', 'building', 'room', 'bathroom', 'veranda', 'features', 'extras', 'area', 'date', 'location', 'maxQuotes', 'contact', 'review']
@@ -78,7 +92,7 @@ export default function ChatWizard() {
         if (currentIndex < steps.length - 1) {
             const nextStep = steps[currentIndex + 1]
             setTimeout(() => {
-                setHistory(prev => [...prev, { role: 'bot', text: QUESTIONS[nextStep as keyof typeof QUESTIONS] || "확인했습니다." }])
+                setHistory(prev => [...prev, { role: 'bot', text: QUESTIONS[nextStep as keyof typeof QUESTIONS] || "확인했습니다.", step: nextStep }])
                 setCurrentStep(nextStep)
             }, 500)
         } else {
@@ -332,20 +346,28 @@ export default function ChatWizard() {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-6">
+            <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-gray-50/50">
                 {history.map((msg, idx) => (
                     <motion.div
                         key={idx}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                        className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
                     >
-                        <div className={`max-w-[80%] rounded-2xl p-4 ${msg.role === 'user'
-                            ? 'bg-[#7353EA] text-white rounded-tr-none'
-                            : 'bg-gray-100 text-gray-800 rounded-tl-none'
+                        <div className={`max-w-[85%] px-5 py-3 text-[15px] leading-relaxed shadow-sm ${msg.role === 'user'
+                                ? 'bg-[#7353EA] text-white rounded-2xl rounded-tr-sm'
+                                : 'bg-white border text-gray-800 rounded-2xl rounded-tl-sm'
                             }`}>
                             {msg.text}
                         </div>
+                        {msg.role === 'user' && msg.step && currentStep !== msg.step && (
+                            <button
+                                onClick={() => jumpToStep(msg.step!)}
+                                className="text-xs text-gray-400 underline mt-2 mr-1 hover:text-[#7353EA] transition-colors"
+                            >
+                                수정
+                            </button>
+                        )}
                     </motion.div>
                 ))}
 
