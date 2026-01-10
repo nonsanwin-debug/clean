@@ -1,107 +1,110 @@
-import BeforeAfterSlider from "@/components/home/before-after-slider";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle2, Star, ShieldCheck, Clock } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, Home, Truck, Paintbucket, Sparkles, Building2, CalendarDays, Wallet, UserCheck } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
+  const services = [
+    { name: "이사/청소", icon: Truck, color: "text-blue-600", bg: "bg-blue-100" },
+    { name: "입주청소", icon: Home, color: "text-green-600", bg: "bg-green-100" },
+    { name: "가전/가구", icon: Sparkles, color: "text-purple-600", bg: "bg-purple-100" },
+    { name: "사업장", icon: Building2, color: "text-orange-600", bg: "bg-orange-100" },
+    { name: "특수청소", icon: Paintbucket, color: "text-red-600", bg: "bg-red-100" },
+    { name: "전체보기", icon: Search, color: "text-gray-600", bg: "bg-gray-100" },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
-
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-b from-blue-50 to-white dark:from-slate-900 dark:to-background">
-        <div className="container px-4 md:px-8 mx-auto">
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
+      <section className="pt-20 pb-12 px-4 text-center bg-white">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-8">
+          더 나은 생활을 위한 변화
+        </h1>
 
-            <div className="flex-1 text-center lg:text-left space-y-8">
-              <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary hover:bg-primary/20">
-                ✨ 프리미엄 청소 서비스
+        <div className="max-w-2xl mx-auto relative mb-12">
+          <Input
+            className="h-14 pl-12 rounded-full shadow-lg border-none bg-white text-lg"
+            placeholder="어떤 서비스가 필요하세요?"
+          />
+          <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 w-6 h-6" />
+          <Button className="absolute right-2 top-2 rounded-full h-10 px-6 font-bold bg-[#7353EA] hover:bg-[#7353EA]/90">
+            AI 견적 요청
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
+          {services.map((service, idx) => (
+            <Link href="/request" key={idx} className="flex flex-col items-center gap-2 group cursor-pointer p-4 hover:bg-gray-50 rounded-xl transition-colors">
+              <div className={`w-12 h-12 rounded-xl ${service.bg} flex items-center justify-center mb-1 group-hover:scale-110 transition-transform`}>
+                <service.icon className={`w-6 h-6 ${service.color}`} />
               </div>
-              <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl text-slate-900 dark:text-white">
-                청소의 차이가<br />
-                <span className="text-primary">공간의 품격</span>을 만듭니다
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-[600px] mx-auto lg:mx-0">
-                검증된 전문가의 손길로 완성되는 완벽한 공간.
-                숨고보다 더 확실한 청소 전문 플랫폼에서 무료 견적을 받아보세요.
-              </p>
+              <span className="text-sm font-medium text-gray-700">{service.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link href="/request">
-                  <Button size="lg" className="h-12 px-8 text-lg w-full sm:w-auto gap-2">
-                    무료 견적 받기 <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </Link>
-                <Button variant="outline" size="lg" className="h-12 px-8 text-lg w-full sm:w-auto">
-                  서비스 알아보기
-                </Button>
-              </div>
-
-              <div className="flex items-center justify-center lg:justify-start gap-8 pt-4 text-sm font-medium text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span>검증된 파트너</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span>100% A/S 보장</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Slider Section */}
-            <div className="flex-1 w-full max-w-[600px] lg:max-w-none">
-              <div className="relative">
-                {/* Decorative blobs */}
-                <div className="absolute -top-10 -right-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                <div className="absolute -bottom-10 -left-10 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-
-                <BeforeAfterSlider />
-
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white dark:bg-slate-800 shadow-xl rounded-full px-6 py-2 flex items-center gap-2 whitespace-nowrap z-20">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map(i => (
-                      <div key={i} className="w-8 h-8 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-[10px] overflow-hidden">
-                        User
-                      </div>
-                    ))}
-                  </div>
-                  <div className="text-sm font-semibold">
-                    <span className="text-primary">4.9/5</span> 만족도 (1,230+)
-                  </div>
-                </div>
+      {/* Feature Section */}
+      <section className="py-16 bg-gray-50 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl font-bold mb-8">지금 필요한 서비스, 한번에 견적 받기</h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <h3 className="font-bold text-lg mb-2">새집처럼 만드는<br />종합 인테리어</h3>
+              <p className="text-sm text-gray-500 mb-4">시공 서비스 9종</p>
+              <div className="flex justify-end">
+                <Home className="w-16 h-16 text-blue-100" />
               </div>
             </div>
-
+            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <h3 className="font-bold text-lg mb-2">곰팡이 걱정 없는<br />쾌적한 욕실</h3>
+              <p className="text-sm text-gray-500 mb-4">청소 서비스 5종</p>
+              <div className="flex justify-end">
+                <Sparkles className="w-16 h-16 text-purple-100" />
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <h3 className="font-bold text-lg mb-2">먼지 없는 사무실<br />정기 청소</h3>
+              <p className="text-sm text-gray-500 mb-4">기업 전용 서비스</p>
+              <div className="flex justify-end">
+                <Building2 className="w-16 h-16 text-orange-100" />
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <h3 className="font-bold text-lg mb-2">합리적인 비용<br />이사 청소</h3>
+              <p className="text-sm text-gray-500 mb-4">무료 견적 받기</p>
+              <div className="flex justify-end">
+                <Truck className="w-16 h-16 text-green-100" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-20 bg-slate-50 dark:bg-slate-800/50">
-        <div className="container px-4 md:px-8 mx-auto">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl font-bold">어떤 서비스가 필요하신가요?</h2>
-            <p className="text-muted-foreground">주거 공간부터 상업 공간까지 맞춤형 솔루션을 제공합니다.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "입주/이사 청소", desc: "새 집처럼 깨끗하게, 묵은 때 완벽 제거", icon: ShieldCheck },
-              { title: "거주/부분 청소", desc: "살고 있는 집도 짐 정리부터 깔끔하게", icon: Star },
-              { title: "상가/오피스 청소", desc: "업무 효율을 높이는 쾌적한 사무실 관리", icon: Clock },
-            ].map((service, i) => (
-              <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border">
-                <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center mb-6 text-primary">
-                  <service.icon size={28} />
+      {/* Trust Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl font-bold mb-8">오늘의 추천 고수예요</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="border rounded-xl p-4 flex gap-4 items-center hover:bg-gray-50 cursor-pointer">
+                <div className="w-14 h-14 bg-gray-200 rounded-full overflow-hidden shrink-0">
+                  {/* Placeholder for avatar */}
+                  <UserCheck className="w-full h-full p-3 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{service.desc}</p>
+                <div>
+                  <h4 className="font-bold text-sm">청소마스터 김고수</h4>
+                  <p className="text-xs text-gray-500">리뷰 158개 • 평점 4.9</p>
+                  <div className="mt-2 flex gap-1">
+                    <span className="text-[10px] bg-gray-100 px-2 py-1 rounded">친절해요</span>
+                    <span className="text-[10px] bg-gray-100 px-2 py-1 rounded">꼼꼼해요</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-
     </div>
   );
 }

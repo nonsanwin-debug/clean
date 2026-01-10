@@ -19,10 +19,18 @@ export async function submitRequest(data: any) {
         sq_ft: data.sqFt,
         target_date: data.date ? new Date(data.date).toISOString().split('T')[0] : null,
         location: data.location,
-        description: data.description,
+        description: data.description, // Can still capture 'anything else?' here
         customer_name: data.name,
         customer_phone: data.phone,
-        status: 'pending'
+        status: 'pending',
+        // New detailed fields
+        building_type: data.buildingType,
+        room_count: data.roomCount,
+        bathroom_count: data.bathroomCount,
+        veranda_count: data.verandaCount,
+        features: data.features || [],
+        extra_services: data.extraServices || [],
+        date_type: data.dateType
     }
 
     const supabase = await createClient()
