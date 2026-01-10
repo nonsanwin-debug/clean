@@ -7,9 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card'
 import { submitPartnerApplication } from '../actions'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import { CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function PartnerApplyPage() {
     const router = useRouter()
