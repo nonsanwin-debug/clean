@@ -133,8 +133,8 @@ export default function PartnerApplyPage() {
                                 <div
                                     key={cat.id}
                                     className={`p-4 border rounded-lg cursor-pointer transition-all ${formData.categories.includes(cat.id)
-                                            ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                                            : 'hover:border-primary/50'
+                                        ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                                        : 'hover:border-primary/50'
                                         }`}
                                     onClick={() => handleCategoryToggle(cat.id)}
                                 >
@@ -223,58 +223,26 @@ export default function PartnerApplyPage() {
                                     />
                                 </div>
 
-                                {emailMode && (
-                                    <div className="space-y-2 border-t pt-4 mt-4">
-                                        <Label>비밀번호 설정 <span className="text-red-500">*</span></Label>
-                                        <Input
-                                            type="password"
-                                            required
-                                            value={formData.password}
-                                            onChange={e => setFormData({ ...formData, password: e.target.value })}
-                                            placeholder="비밀번호를 입력해주세요"
-                                        />
-                                    </div>
-                                )}
+                                <div className="space-y-2 border-t pt-4 mt-4">
+                                    <Label>비밀번호 설정 <span className="text-red-500">*</span></Label>
+                                    <Input
+                                        type="password"
+                                        required
+                                        value={formData.password}
+                                        onChange={e => setFormData({ ...formData, password: e.target.value })}
+                                        placeholder="비밀번호를 입력해주세요"
+                                    />
+                                </div>
                             </div>
 
                             <div className="border-t pt-6">
-                                {!emailMode ? (
-                                    <>
-                                        <Label className="text-base mb-4 block text-center">어떤 방식으로 시작하시겠습니까?</Label>
-                                        <div className="space-y-3">
-                                            <Button
-                                                className="w-full bg-[#FAE100] hover:bg-[#FAE100]/90 text-black h-12 text-base font-bold"
-                                                onClick={() => handleInitialSubmit('kakao')}
-                                                disabled={loading}
-                                            >
-                                                카카오로 가입하기
-                                            </Button>
-                                            <Button
-                                                className="w-full bg-[#03C75A] hover:bg-[#03C75A]/90 h-12 text-base font-bold"
-                                                onClick={() => handleInitialSubmit('naver')}
-                                                disabled={loading}
-                                            >
-                                                네이버로 가입하기
-                                            </Button>
-                                            <Button
-                                                variant="outline"
-                                                className="w-full h-12 text-base"
-                                                onClick={() => handleInitialSubmit('email')}
-                                                disabled={loading}
-                                            >
-                                                이메일로 가입하기
-                                            </Button>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <Button
-                                        className="w-full h-12 text-lg"
-                                        onClick={() => handleSubmit('email')}
-                                        disabled={loading}
-                                    >
-                                        {loading ? '가입 처리 중...' : '가입 완료하기'}
-                                    </Button>
-                                )}
+                                <Button
+                                    className="w-full h-12 text-lg bg-[#7353EA] hover:bg-[#7353EA]/90 font-bold"
+                                    onClick={() => handleSubmit('email')}
+                                    disabled={loading}
+                                >
+                                    {loading ? '가입 처리 중...' : '파트너 가입 완료하기'}
+                                </Button>
                             </div>
                         </div>
                     )}
