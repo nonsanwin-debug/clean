@@ -27,8 +27,7 @@ export async function submitRequest(data: any) {
         building_type: data.buildingType,
         room_count: data.roomCount,
         bathroom_count: data.bathroomCount,
-        room_count: data.roomCount,
-        bathroom_count: data.bathroomCount,
+
         veranda_count: data.verandaCount,
         features: data.features || [],
         extra_services: data.extraServices || [],
