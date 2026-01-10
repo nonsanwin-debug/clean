@@ -35,7 +35,7 @@ export default function PartnerApplyPage() {
     const [emailMode, setEmailMode] = useState(false) // Track if email signup is selected
     const [formData, setFormData] = useState({
         categories: [] as string[],
-        services: [] as string[],
+        services: [] as string[], // Kept for schema compatibility but unused
         name: '',
         phone: '',
         area: '',
@@ -52,24 +52,6 @@ export default function PartnerApplyPage() {
                 ? prev.categories.filter(c => c !== id)
                 : [...prev.categories, id]
         }))
-    }
-
-    const handleServiceToggle = (service: string) => {
-        setFormData(prev => ({
-            ...prev,
-            services: prev.services.includes(service)
-                ? prev.services.filter(s => s !== service)
-                : [...prev.services, service]
-        }))
-    }
-
-    const handleInitialSubmit = (method: string) => {
-        if (method === 'email') {
-            setEmailMode(true)
-            return
-        }
-        // For Kakao/Naver, proceed directly
-        handleSubmit(method)
     }
 
     const handleSubmit = async (method: string) => {
@@ -111,19 +93,18 @@ export default function PartnerApplyPage() {
                 <CardHeader>
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex space-x-2">
-                            {[1, 2, 3].map((s) => (
+                            {[1, 2].map((s) => (
                                 <div
                                     key={s}
                                     className={`h-2 w-12 rounded-full ${step >= s ? 'bg-primary' : 'bg-gray-200'}`}
                                 />
                             ))}
                         </div>
-                        <span className="text-sm text-muted-foreground">Step {step} of 3</span>
+                        <span className="text-sm text-muted-foreground">Step {step} of 2</span>
                     </div>
                     <CardTitle className="text-2xl font-bold">
                         {step === 1 && "어떤 서비스를 제공하시나요?"}
-                        {step === 2 && "구체적인 가능한 작업을 선택해주세요"}
-                        {step === 3 && "필수 정보 및 계정 설정"}
+                        {step === 2 && "필수 정보 및 계정 설정"}
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -150,29 +131,6 @@ export default function PartnerApplyPage() {
                     )}
 
                     {step === 2 && (
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto pr-2">
-                            {DETAILED_SERVICES.map((service) => (
-                                <div
-                                    key={service}
-                                    className="flex items-center space-x-2 p-2 rounded hover:bg-gray-50"
-                                >
-                                    <Checkbox
-                                        id={service}
-                                        checked={formData.services.includes(service)}
-                                        onCheckedChange={() => handleServiceToggle(service)}
-                                    />
-                                    <Label
-                                        htmlFor={service}
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer w-full py-1"
-                                    >
-                                        {service}
-                                    </Label>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {step === 3 && (
                         <div className="space-y-6">
                             <div className="space-y-4">
                                 <div className="space-y-2">
@@ -261,7 +219,7 @@ export default function PartnerApplyPage() {
                         </Link>
                     )}
 
-                    {step < 3 && (
+                    {step < 2 && (
                         <Button onClick={() => setStep(step + 1)}>
                             다음 <ChevronRight className="ml-2 h-4 w-4" />
                         </Button>
