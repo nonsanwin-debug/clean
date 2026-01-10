@@ -16,6 +16,9 @@ export async function submitPartnerApplication(data: any) {
                 experience: data.experience,
                 categories: data.categories || [],
                 services: data.services || [],
+                email: data.email,
+                password: data.password || null, // Optional for social login
+                provider: data.loginMethod || 'email',
                 status: 'pending'
             })
 

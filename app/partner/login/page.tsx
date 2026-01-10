@@ -16,15 +16,14 @@ export default function PartnerLoginPage() {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
+        performLogin()
+    }
 
+    const performLogin = () => {
         // Mock Login for Demo
         setTimeout(() => {
-            if (email && password) {
-                alert('로그인 성공 (데모)')
-                router.push('/partner/dashboard')
-            } else {
-                alert('이메일과 비밀번호를 입력해주세요.')
-            }
+            alert('로그인 성공')
+            router.push('/partner/dashboard')
             setLoading(false)
         }, 1000)
     }
@@ -35,7 +34,7 @@ export default function PartnerLoginPage() {
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">파트너 로그인</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-6">
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div className="space-y-2">
                             <label className="text-sm font-medium">이메일</label>
@@ -57,9 +56,37 @@ export default function PartnerLoginPage() {
                             />
                         </div>
                         <Button type="submit" className="w-full" disabled={loading}>
-                            {loading ? '로그인 중...' : '로그인'}
+                            {loading ? '로그인 중...' : '이메일로 로그인'}
                         </Button>
                     </form>
+
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <span className="w-full border-t" />
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                            <span className="bg-background px-2 text-muted-foreground">
+                                또는 소셜 로그인
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Button
+                            className="w-full bg-[#FAE100] hover:bg-[#FAE100]/90 text-black font-bold"
+                            onClick={() => performLogin()}
+                            type="button"
+                        >
+                            카카오로 시작하기
+                        </Button>
+                        <Button
+                            className="w-full bg-[#03C75A] hover:bg-[#03C75A]/90 font-bold"
+                            onClick={() => performLogin()}
+                            type="button"
+                        >
+                            네이버로 시작하기
+                        </Button>
+                    </div>
                 </CardContent>
                 <CardFooter className="justify-center">
                     <p className="text-sm text-muted-foreground">

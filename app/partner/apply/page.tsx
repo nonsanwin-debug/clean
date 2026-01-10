@@ -32,6 +32,7 @@ export default function PartnerApplyPage() {
     const router = useRouter()
     const [step, setStep] = useState(1)
     const [loading, setLoading] = useState(false)
+    const [emailMode, setEmailMode] = useState(false) // Track if email signup is selected
     const [formData, setFormData] = useState({
         categories: [] as string[],
         services: [] as string[],
@@ -39,6 +40,8 @@ export default function PartnerApplyPage() {
         phone: '',
         area: '',
         experience: '',
+        email: '',
+        password: '',
         loginMethod: ''
     })
 
@@ -60,13 +63,26 @@ export default function PartnerApplyPage() {
         }))
     }
 
+    const handleInitialSubmit = (method: string) => {
+        if (method === 'email') {
+            setEmailMode(true)
+            return
+        }
+        // For Kakao/Naver, proceed directly
+        handleSubmit(method)
+    }
+
     const handleSubmit = async (method: string) => {
         setLoading(true)
 
-        // In a real app, this would trigger different flows based on method
-        // For now, we simulate all as successful submission after basic info check
-        if (!formData.name || !formData.phone) {
-            alert('필수 정보를 입력해주세요.')
+        if (!formData.name || !formData.phone || !formData.email) {
+            alert('필수 정보(이름, 연락처, 이메일)를 모두 입력해주세요.')
+            setLoading(false)
+            return
+        }
+
+        if (method === 'email' && !formData.password) {
+            alert('비밀번호를 입력해주세요.')
             setLoading(false)
             return
         }
@@ -77,7 +93,7 @@ export default function PartnerApplyPage() {
                 loginMethod: method
             })
             if (result.success) {
-                alert('파트너 신청이 완료되었습니다.\n관리자 승인 후 이용 가능합니다.')
+                alert('파트너 신청이 완료되었습니다.\n관리자 승인 후 로그인하실 수 있습니다.')
                 router.push('/partner/login')
             } else {
                 alert(result.message)
@@ -107,13 +123,8 @@ export default function PartnerApplyPage() {
                     <CardTitle className="text-2xl font-bold">
                         {step === 1 && "어떤 서비스를 제공하시나요?"}
                         {step === 2 && "구체적인 가능한 작업을 선택해주세요"}
-                        {step === 3 && "마지막으로 필수 정보를 입력해주세요"}
+                        {step === 3 && "필수 정보 및 계정 설정"}
                     </CardTitle>
-                    <CardDescription>
-                        {step === 1 && "제공 가능한 서비스 분야를 모두 선택해주세요."}
-                        {step === 2 && "고객에게 제공할 구체적인 서비스를 체크해주세요."}
-                        {step === 3 && "안전한 파트너 등록을 위해 정보를 입력합니다."}
-                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     {step === 1 && (
@@ -164,18 +175,31 @@ export default function PartnerApplyPage() {
                     {step === 3 && (
                         <div className="space-y-6">
                             <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>이메일 (아이디로 사용됩니다) <span className="text-red-500">*</span></Label>
+                                    <Input
+                                        type="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                        placeholder="partner@example.com"
+                                    />
+                                </div>
+
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label>업체명 / 성함</Label>
+                                        <Label>업체명 / 성함 <span className="text-red-500">*</span></Label>
                                         <Input
+                                            required
                                             value={formData.name}
                                             onChange={e => setFormData({ ...formData, name: e.target.value })}
                                             placeholder="예: 깔끔청소"
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>연락처</Label>
+                                        <Label>연락처 <span className="text-red-500">*</span></Label>
                                         <Input
+                                            required
                                             value={formData.phone}
                                             onChange={e => setFormData({ ...formData, phone: e.target.value })}
                                             placeholder="010-0000-0000"
@@ -198,41 +222,69 @@ export default function PartnerApplyPage() {
                                         placeholder="간단한 소개를 입력해주세요"
                                     />
                                 </div>
+
+                                {emailMode && (
+                                    <div className="space-y-2 border-t pt-4 mt-4">
+                                        <Label>비밀번호 설정 <span className="text-red-500">*</span></Label>
+                                        <Input
+                                            type="password"
+                                            required
+                                            value={formData.password}
+                                            onChange={e => setFormData({ ...formData, password: e.target.value })}
+                                            placeholder="비밀번호를 입력해주세요"
+                                        />
+                                    </div>
+                                )}
                             </div>
 
                             <div className="border-t pt-6">
-                                <Label className="text-base mb-4 block text-center">어떤 방식으로 시작하시겠습니까?</Label>
-                                <div className="space-y-3">
+                                {!emailMode ? (
+                                    <>
+                                        <Label className="text-base mb-4 block text-center">어떤 방식으로 시작하시겠습니까?</Label>
+                                        <div className="space-y-3">
+                                            <Button
+                                                className="w-full bg-[#FAE100] hover:bg-[#FAE100]/90 text-black h-12 text-base font-bold"
+                                                onClick={() => handleInitialSubmit('kakao')}
+                                                disabled={loading}
+                                            >
+                                                카카오로 가입하기
+                                            </Button>
+                                            <Button
+                                                className="w-full bg-[#03C75A] hover:bg-[#03C75A]/90 h-12 text-base font-bold"
+                                                onClick={() => handleInitialSubmit('naver')}
+                                                disabled={loading}
+                                            >
+                                                네이버로 가입하기
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                className="w-full h-12 text-base"
+                                                onClick={() => handleInitialSubmit('email')}
+                                                disabled={loading}
+                                            >
+                                                이메일로 가입하기
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
                                     <Button
-                                        className="w-full bg-[#FAE100] hover:bg-[#FAE100]/90 text-black h-12 text-base font-bold"
-                                        onClick={() => handleSubmit('kakao')}
-                                        disabled={loading}
-                                    >
-                                        카카오로 시작하기
-                                    </Button>
-                                    <Button
-                                        className="w-full bg-[#03C75A] hover:bg-[#03C75A]/90 h-12 text-base font-bold"
-                                        onClick={() => handleSubmit('naver')}
-                                        disabled={loading}
-                                    >
-                                        네이버로 시작하기
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        className="w-full h-12 text-base"
+                                        className="w-full h-12 text-lg"
                                         onClick={() => handleSubmit('email')}
                                         disabled={loading}
                                     >
-                                        이메일로 시작하기
+                                        {loading ? '가입 처리 중...' : '가입 완료하기'}
                                     </Button>
-                                </div>
+                                )}
                             </div>
                         </div>
                     )}
                 </CardContent>
                 <CardFooter className="flex justify-between border-t p-6">
                     {step > 1 ? (
-                        <Button variant="outline" onClick={() => setStep(step - 1)}>
+                        <Button variant="outline" onClick={() => {
+                            if (emailMode) setEmailMode(false)
+                            else setStep(step - 1)
+                        }}>
                             <ChevronLeft className="mr-2 h-4 w-4" /> 이전
                         </Button>
                     ) : (
