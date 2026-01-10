@@ -271,11 +271,11 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             <p className="text-xs text-gray-500 mt-0.5">고객님께 제안할 금액을 입력해주세요.</p>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
                             <div className="space-y-4">
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-bold text-gray-900">총 예상 금액 (VAT 포함)</label>
-                                    <div className="relative transform transition-all focus-within:scale-[1.01]">
+                                    <div className="relative transform transition-all focus-within:scale-[1.01] mb-1">
                                         <Input
                                             type="text"
                                             placeholder="0"
@@ -300,7 +300,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     <label className="text-xs font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
                                     <Textarea
                                         placeholder={`예시)\n안녕하세요, 친환경 세제만을 사용하는 청소마스터입니다.\n곰팡이 제거 무료 서비스 포함 위 가격으로 진행 가능합니다.`}
-                                        className="h-40 resize-none p-4 text-sm border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-xl"
+                                        className="h-24 resize-none p-3 text-sm border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-xl"
                                         value={message}
                                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                                     />
