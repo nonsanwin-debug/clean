@@ -297,23 +297,27 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                 <div className="h-px bg-gray-100" />
 
                                 <div className="space-y-3">
-                                    <div className="flex items-center justify-between">
-                                        <label className="text-xs font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
-                                        <Button
-                                            className="h-8 text-xs font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-md shadow-indigo-100 rounded-lg px-4"
-                                            onClick={handleSendQuote}
-                                            disabled={sending}
-                                        >
-                                            {sending ? "발송 중..." : "견적서 무료 발송하기"}
-                                            {!sending && <Send className="w-3 h-3 ml-1.5" />}
-                                        </Button>
-                                    </div>
+                                    <label className="text-xs font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
                                     <Textarea
                                         placeholder={`예시)\n안녕하세요, 친환경 세제만을 사용하는 청소마스터입니다.\n곰팡이 제거 무료 서비스 포함 위 가격으로 진행 가능합니다.`}
                                         className="h-60 resize-none p-4 text-sm border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-xl font-medium"
                                         value={message}
                                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                                     />
+                                    <Button
+                                        className="w-full h-12 text-base font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl mt-2"
+                                        onClick={handleSendQuote}
+                                        disabled={sending}
+                                    >
+                                        {sending ? (
+                                            <span className="flex items-center gap-2">발송 중...</span>
+                                        ) : (
+                                            <span className="flex items-center gap-2">
+                                                <Send className="w-5 h-5" /> 견적서 무료 발송하기
+                                            </span>
+                                        )}
+                                    </Button>
+                                    <div className="h-12" /> {/* Extra Safe Area for scrolling */}
                                 </div>
                             </div>
                         </div>
