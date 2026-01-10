@@ -27,7 +27,7 @@ export default async function PartnerDashboardPage() {
     return (
         <div className="flex flex-col h-screen">
             <header className="border-b h-16 flex items-center px-6 bg-white shrink-0 justify-between">
-                <div className="font-bold text-xl text-primary">Partner Center</div>
+                <div className="font-bold text-xl text-primary"></div>
                 <div className="text-sm text-muted-foreground">환영합니다, 파트너님</div>
             </header>
             <main className="flex-1 overflow-hidden">

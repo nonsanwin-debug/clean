@@ -84,8 +84,8 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-64px)] overflow-hidden bg-[#F3F5F7]">
             {/* Left Column: Request List */}
-            <div className="md:col-span-3 border-r border-[#E8ECF0] bg-white overflow-y-auto h-full flex flex-col">
-                <div className="p-5 border-b border-[#E8ECF0] bg-white sticky top-0 z-10">
+            <div className="md:col-span-3 bg-white overflow-y-auto h-full flex flex-col">
+                <div className="p-5 bg-white sticky top-0 z-10">
                     <h2 className="font-bold text-xl text-gray-900">받은 요청함</h2>
                     <p className="text-sm text-gray-400 mt-1">총 {requests.length}개의 새로운 요청이 있습니다.</p>
                 </div>
@@ -150,20 +150,20 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                         </div>
 
                         {/* Customer Info Card (Clean & App-like) */}
-                        <div className="bg-gradient-to-r from-[#7353EA] to-[#8E74F0] rounded-[24px] p-6 shadow-lg shadow-indigo-200 text-white relative overflow-hidden">
-                            <div className="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
-                                <User className="w-48 h-48" />
+                        <div className="bg-white rounded-[24px] p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] relative overflow-hidden">
+                            <div className="absolute right-0 top-0 opacity-[0.03] transform translate-x-1/4 -translate-y-1/4">
+                                <User className="w-48 h-48 text-gray-900" />
                             </div>
                             <div className="flex items-center gap-5 relative z-10">
-                                <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0">
-                                    <User className="w-8 h-8 text-white" />
+                                <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
+                                    <User className="w-8 h-8 text-[#7353EA]" />
                                 </div>
                                 <div>
-                                    <h3 className="text-white/80 text-sm font-medium mb-1">견적 요청 고객</h3>
-                                    <p className="text-2xl font-bold flex items-center gap-2">
+                                    <h3 className="text-gray-500 text-sm font-medium mb-1">견적 요청 고객</h3>
+                                    <p className="text-2xl font-bold flex items-center gap-2 text-gray-900">
                                         {selectedRequest.customer_name} 고객님
                                     </p>
-                                    <p className="text-white/80 flex items-center gap-2 text-sm mt-1">
+                                    <p className="text-gray-500 flex items-center gap-2 text-sm mt-1">
                                         <MapPin className="w-3.5 h-3.5" />
                                         {selectedRequest.location} 거주
                                     </p>
@@ -260,7 +260,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
             </div>
 
             {/* Right Column: Work Area */}
-            <div className="md:col-span-3 bg-white border-l h-full flex flex-col shadow-2xl z-20">
+            <div className="md:col-span-3 bg-white h-full flex flex-col shadow-2xl z-20">
                 {selectedRequest ? (
                     <div className="flex flex-col h-full bg-white">
                         <div className="p-6 border-b border-gray-100 sticky top-0 bg-white/95 backdrop-blur z-10">
