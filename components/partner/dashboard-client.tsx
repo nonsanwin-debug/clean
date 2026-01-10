@@ -82,40 +82,42 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-64px)] overflow-hidden bg-slate-50">
+        <div className="grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-64px)] overflow-hidden bg-[#F3F5F7]">
             {/* Left Column: Request List */}
-            <div className="md:col-span-3 border-r bg-slate-50/50 overflow-y-auto h-full flex flex-col">
-                <div className="p-5 border-b bg-white/80 backdrop-blur sticky top-0 z-10">
-                    <h2 className="font-bold text-xl text-slate-900">받은 요청함</h2>
-                    <p className="text-sm text-slate-500 mt-1">총 {requests.length}개의 새로운 요청이 있습니다.</p>
+            <div className="md:col-span-3 border-r border-[#E8ECF0] bg-white overflow-y-auto h-full flex flex-col">
+                <div className="p-5 border-b border-[#E8ECF0] bg-white sticky top-0 z-10">
+                    <h2 className="font-bold text-xl text-gray-900">받은 요청함</h2>
+                    <p className="text-sm text-gray-400 mt-1">총 {requests.length}개의 새로운 요청이 있습니다.</p>
                 </div>
-                <div className="p-4 space-y-3">
+                <div className="p-4 space-y-3 bg-[#F8FAFC]">
                     {requests.map(req => (
                         <div
                             key={req.id}
-                            className={`p-4 rounded-2xl cursor-pointer transition-all duration-200 border relative group ${selectedRequest?.id === req.id
-                                    ? 'bg-white border-[#7353EA] shadow-md ring-1 ring-[#7353EA]/20'
-                                    : 'bg-white border-transparent hover:border-slate-200 hover:shadow-sm'
+                            className={`p-5 rounded-2xl cursor-pointer transition-all duration-200 shadow-sm relative group overflow-hidden ${selectedRequest?.id === req.id
+                                ? 'bg-white ring-2 ring-[#7353EA] shadow-[0_4px_20px_rgba(115,83,234,0.15)] z-10'
+                                : 'bg-white hover:bg-gray-50 border border-transparent'
                                 }`}
                             onClick={() => setSelectedRequest(req)}
                         >
                             <div className="flex justify-between items-start mb-2">
-                                <Badge variant={req.status === 'pending' ? 'default' : 'secondary'} className={`${req.status === 'pending' ? 'bg-[#7353EA] hover:bg-[#7353EA]/90' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-                                    }`}>
+                                <Badge variant="secondary" className={`${req.status === 'pending'
+                                    ? 'bg-[#EFEBFF] text-[#7353EA] hover:bg-[#EFEBFF]'
+                                    : 'bg-gray-100 text-gray-500 hover:bg-gray-100'
+                                    } border-none`}>
                                     {req.status === 'pending' ? '매칭중' : req.status}
                                 </Badge>
-                                <span className="text-xs text-slate-400 font-medium whitespace-nowrap">
+                                <span className="text-xs text-gray-400 font-medium whitespace-nowrap">
                                     {format(new Date(req.created_at), 'MM/dd HH:mm')}
                                 </span>
                             </div>
-                            <h3 className={`font-bold text-lg mb-2 transition-colors ${selectedRequest?.id === req.id ? 'text-[#7353EA]' : 'text-slate-900'}`}>{req.service_type}</h3>
+                            <h3 className={`font-bold text-lg mb-2 transition-colors ${selectedRequest?.id === req.id ? 'text-[#7353EA]' : 'text-gray-900'}`}>{req.service_type}</h3>
                             <div className="space-y-1.5">
-                                <div className="flex items-center gap-2 text-sm text-slate-500">
-                                    <MapPin className="w-3.5 h-3.5" />
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <MapPin className="w-3.5 h-3.5 text-gray-400" />
                                     <span className="truncate">{req.location}</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-500">
-                                    <Calendar className="w-3.5 h-3.5" />
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <Calendar className="w-3.5 h-3.5 text-gray-400" />
                                     <span>{req.target_date || '날짜 미정'}</span>
                                 </div>
                             </div>
@@ -125,55 +127,56 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
             </div>
 
             {/* Center Column: Request Detail (Enhanced Design) */}
-            <div className="md:col-span-6 overflow-y-auto h-full bg-[#f8f9fc] p-8">
+            <div className="md:col-span-6 overflow-y-auto h-full bg-[#F3F5F7] p-8 custom-scrollbar">
                 {selectedRequest ? (
-                    <div className="max-w-3xl mx-auto space-y-8 pb-10">
+                    <div className="max-w-3xl mx-auto space-y-6 pb-10">
                         {/* Header Section */}
-                        <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+                        <div className="bg-white rounded-[24px] p-8 shadow-[0_2px_15px_rgba(0,0,0,0.03)] border-none">
                             <div className="flex items-center gap-2 mb-4">
-                                <Badge variant="outline" className="px-3 py-1 border-[#7353EA] text-[#7353EA] bg-[#7353EA]/5">
+                                <div className="px-3 py-1 rounded-full bg-[#EFEBFF] text-[#7353EA] text-xs font-bold">
                                     {selectedRequest.service_type}
-                                </Badge>
-                                <span className="text-slate-400 text-sm">
-                                    요청번호 #{selectedRequest.id.slice(0, 8)}
+                                </div>
+                                <span className="text-gray-300 text-xs font-mono">
+                                    ID: {selectedRequest.id.slice(0, 8)}
                                 </span>
                             </div>
-                            <h1 className="text-3xl font-extrabold text-slate-900 mb-2">
+                            <h1 className="text-3xl font-extrabold text-gray-900 mb-2 tracking-tight">
                                 {selectedRequest.sq_ft}평 {selectedRequest.building_type || '건물'} 청소 견적 요청
                             </h1>
-                            <p className="flex items-center gap-2 text-slate-500 text-lg">
-                                <MapPin className="w-5 h-5 text-slate-400" />
+                            <p className="flex items-center gap-2 text-gray-500 text-lg font-medium">
+                                <MapPin className="w-5 h-5 text-gray-300" />
                                 {selectedRequest.location}
                             </p>
                         </div>
 
-                        {/* Customer Info Card (Privacy Protected) */}
-                        <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-blue-100 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-4 opacity-10">
-                                <CheckCircle2 className="w-32 h-32 text-[#7353EA]" />
+                        {/* Customer Info Card (Clean & App-like) */}
+                        <div className="bg-gradient-to-r from-[#7353EA] to-[#8E74F0] rounded-[24px] p-6 shadow-lg shadow-indigo-200 text-white relative overflow-hidden">
+                            <div className="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                                <User className="w-48 h-48" />
                             </div>
-                            <div className="flex items-start gap-4 relative z-10">
-                                <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                                    <User className="w-6 h-6 text-blue-600" />
+                            <div className="flex items-center gap-5 relative z-10">
+                                <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border-2 border-white/30 shrink-0">
+                                    <User className="w-8 h-8 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-lg text-slate-900">고객 정보 (안심 보호 중)</h3>
-                                    <div className="mt-2 space-y-1">
-                                        <p className="text-slate-600 flex items-center gap-2">
-                                            <span className="font-medium text-slate-900">{selectedRequest.customer_name.slice(0, 1)}** 고객님</span>
-                                        </p>
-                                        <p className="text-blue-600 font-medium flex items-center gap-2 bg-blue-50 px-3 py-1 rounded-lg w-fit">
-                                            <Phone className="w-3.5 h-3.5" />
-                                            010-****-**** (견적 발송 시 연결)
-                                        </p>
-                                    </div>
+                                    <h3 className="text-white/80 text-sm font-medium mb-1">견적 요청 고객</h3>
+                                    <p className="text-2xl font-bold flex items-center gap-2">
+                                        {selectedRequest.customer_name} 고객님
+                                    </p>
+                                    <p className="text-white/80 flex items-center gap-2 text-sm mt-1">
+                                        <MapPin className="w-3.5 h-3.5" />
+                                        {selectedRequest.location} 거주
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Detail Grid */}
                         <div>
-                            <h3 className="font-bold text-slate-900 text-lg mb-4">상세 요청 정보</h3>
+                            <h3 className="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+                                <span className="w-1.5 h-6 rounded-full bg-[#7353EA]"></span>
+                                상세 요청 정보
+                            </h3>
                             <div className="grid grid-cols-2 gap-4">
                                 <DetailCard
                                     icon={<Home className="w-5 h-5 text-[#7353EA]" />}
@@ -192,22 +195,21 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     className="col-span-2"
                                 />
 
-                                {/* Moved Up & Full Width */}
-                                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm col-span-2">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <div className="p-2 bg-purple-50 rounded-lg">
+                                <div className="bg-white p-6 rounded-[24px] shadow-[0_2px_15px_rgba(0,0,0,0.03)] col-span-2">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="p-2 bg-purple-50 rounded-xl">
                                             <CheckCircle2 className="w-5 h-5 text-purple-600" />
                                         </div>
-                                        <h4 className="font-bold text-slate-700">추가 요청 서비스</h4>
+                                        <h4 className="font-bold text-gray-800">추가 요청 서비스</h4>
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {selectedRequest.extra_services?.length ? (
                                             selectedRequest.extra_services.map((f, i) => (
-                                                <Badge key={i} variant="secondary" className="px-3 py-1.5 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-100">
+                                                <Badge key={i} variant="secondary" className="px-4 py-2 bg-purple-50 text-purple-700 hover:bg-purple-100 border-none rounded-xl text-sm font-medium">
                                                     {f}
                                                 </Badge>
                                             ))
-                                        ) : <span className="text-slate-400 text-sm">없음</span>}
+                                        ) : <span className="text-gray-400 text-sm">없음</span>}
                                     </div>
                                 </div>
 
@@ -217,90 +219,98 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     value={selectedRequest.target_date || '날짜 협의 가능'}
                                 />
 
-                                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-center">
-                                    <p className="text-sm text-slate-500 font-medium mb-2 flex items-center gap-2">
+                                <div className="bg-white p-6 rounded-[24px] shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex flex-col justify-center">
+                                    <p className="text-sm text-gray-500 font-medium mb-3 flex items-center gap-2">
                                         <AlertCircle className="w-4 h-4 text-orange-400" />
                                         특이사항
                                     </p>
                                     <div className="flex flex-wrap gap-2">
                                         {selectedRequest.features?.length ? (
                                             selectedRequest.features.map((f, i) => (
-                                                <Badge key={i} variant="outline" className="text-xs bg-slate-50">
+                                                <Badge key={i} variant="outline" className="text-xs bg-gray-50 px-3 py-1.5 border-none text-gray-600 font-medium">
                                                     {f}
                                                 </Badge>
                                             ))
-                                        ) : <span className="font-bold text-slate-900">없음</span>}
+                                        ) : <span className="font-bold text-gray-700 text-sm">없음</span>}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
-                            <h4 className="font-bold text-slate-900 mb-2">고객 추가 전달사항</h4>
-                            <p className="text-slate-600 whitespace-pre-wrap leading-relaxed">
-                                {selectedRequest.description || "특별히 남기신 내용이 없습니다."}
-                            </p>
+                        <div className="bg-white rounded-[24px] p-8 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                            <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <span className="w-1.5 h-6 rounded-full bg-gray-200"></span>
+                                고객 추가 전달사항
+                            </h4>
+                            <div className="bg-gray-50 rounded-2xl p-6">
+                                <p className="text-gray-600 whitespace-pre-wrap leading-relaxed font-medium">
+                                    {selectedRequest.description || "특별히 남기신 내용이 없습니다."}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 ) : (
-                    <div className="flex h-full items-center justify-center text-slate-400 flex-col">
-                        <Layers className="w-16 h-16 mb-4 text-slate-200" />
-                        <p>왼쪽 목록에서 요청을 선택하여 상세 내용을 확인하세요.</p>
+                    <div className="flex h-full items-center justify-center text-gray-400 flex-col">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                            <Layers className="w-10 h-10 text-gray-300" />
+                        </div>
+                        <p className="text-lg font-medium text-gray-500">왼쪽 목록에서 요청을 선택해주세요</p>
                     </div>
                 )}
             </div>
 
             {/* Right Column: Work Area */}
-            <div className="md:col-span-3 bg-white border-l h-full flex flex-col shadow-xl z-20">
+            <div className="md:col-span-3 bg-white border-l h-full flex flex-col shadow-2xl z-20">
                 {selectedRequest ? (
-                    <div className="flex flex-col h-full">
-                        <div className="p-6 border-b">
-                            <h3 className="font-bold text-lg flex items-center gap-2 text-slate-900">
-                                <DollarSign className="w-5 h-5 text-[#7353EA]" />
+                    <div className="flex flex-col h-full bg-white">
+                        <div className="p-6 border-b border-gray-100 sticky top-0 bg-white/95 backdrop-blur z-10">
+                            <h3 className="font-bold text-xl flex items-center gap-2 text-gray-900">
+                                <DollarSign className="w-6 h-6 text-[#7353EA]" />
                                 견적서 작성
                             </h3>
-                            <p className="text-sm text-slate-500 mt-1">고객님께 보낼 합리적인 금액을 제안하세요.</p>
+                            <p className="text-sm text-gray-500 mt-1">고객님께 제안할 금액을 입력해주세요.</p>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                            <div className="space-y-4">
+                        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+                            <div className="space-y-5">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-700">총 예상 금액 (VAT 포함)</label>
+                                    <label className="text-sm font-bold text-gray-900">총 예상 금액 (VAT 포함)</label>
                                     <div className="relative transform transition-all focus-within:scale-[1.02]">
                                         <Input
                                             type="text"
                                             placeholder="0"
-                                            className="h-14 pl-10 font-bold text-2xl border-slate-200 bg-slate-50 focus:bg-white transition-colors"
+                                            className="h-16 pl-10 font-bold text-3xl border-gray-100 bg-gray-50 focus:bg-[#F8F7FF] focus:border-[#7353EA] focus:ring-0 transition-all rounded-2xl"
                                             value={price}
                                             onChange={(e) => {
                                                 const val = e.target.value.replace(/[^0-9]/g, '');
                                                 setPrice(val ? parseInt(val).toLocaleString() : '');
                                             }}
                                         />
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl font-medium">₩</span>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl font-medium">₩</span>
                                     </div>
-                                    <p className="text-xs text-blue-600 font-medium">
-                                        * 평균 시세: 350,000원 ~ 400,000원
-                                    </p>
+                                    <div className="text-xs text-blue-600 font-medium flex items-center gap-1">
+                                        <div className="w-1 h-1 rounded-full bg-blue-600" />
+                                        평균 시세: 350,000원 ~ 400,000원
+                                    </div>
                                 </div>
 
-                                <div className="h-px bg-slate-100 my-4" />
+                                <div className="h-px bg-gray-100" />
 
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-700">견적 상세 설명 (어필하기)</label>
+                                <div className="space-y-3">
+                                    <label className="text-sm font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
                                     <Textarea
                                         placeholder={`예시)\n안녕하세요, 친환경 세제만을 사용하는 청소마스터입니다.\n곰팡이 제거 무료 서비스 포함 위 가격으로 진행 가능합니다.`}
-                                        className="h-48 resize-none p-4 text-base border-slate-200 bg-slate-50 focus:bg-white transition-colors leading-relaxed"
+                                        className="h-64 resize-none p-5 text-base border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-2xl"
                                         value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
+                                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="p-6 border-t bg-slate-50">
+                        <div className="p-6 border-t border-gray-100 bg-gray-50/50 backdrop-blur pb-8">
                             <Button
-                                className="w-full h-14 text-lg font-bold bg-[#7353EA] hover:bg-[#7353EA]/90 transition-all shadow-lg shadow-indigo-200"
+                                className="w-full h-14 text-lg font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl"
                                 onClick={handleSendQuote}
                                 disabled={sending}
                             >
@@ -312,13 +322,10 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     </span>
                                 )}
                             </Button>
-                            <p className="text-xs text-center text-slate-400 mt-3">
-                                고객님이 견적을 확정하면 연락처가 공개됩니다.
-                            </p>
                         </div>
                     </div>
                 ) : (
-                    <div className="flex h-full items-center justify-center text-slate-400 text-sm p-8 text-center bg-slate-50">
+                    <div className="flex h-full items-center justify-center text-gray-400 text-sm p-8 text-center bg-gray-50/50">
                         선택된 요청이 없습니다.
                     </div>
                 )}
@@ -329,13 +336,13 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
 
 function DetailCard({ icon, label, value, className = '' }: { icon: React.ReactNode, label: string, value: string, className?: string }) {
     return (
-        <div className={`bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-start gap-4 ${className}`}>
-            <div className="p-2.5 bg-slate-50 rounded-xl shrink-0">
+        <div className={`bg-white p-6 rounded-[24px] shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex items-start gap-4 ${className}`}>
+            <div className="p-3 bg-gray-50 rounded-xl shrink-0">
                 {icon}
             </div>
             <div>
-                <p className="text-sm text-slate-500 font-medium mb-1">{label}</p>
-                <p className="text-slate-900 font-bold text-lg">{value}</p>
+                <p className="text-sm text-gray-400 font-medium mb-1">{label}</p>
+                <p className="text-gray-900 font-bold text-lg tracking-tight">{value}</p>
             </div>
         </div>
     )
