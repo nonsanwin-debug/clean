@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { submitRequest } from '@/app/request/actions'
 import { Loader2, Send } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type Step = 'service' | 'building' | 'room' | 'bathroom' | 'veranda' | 'features' | 'extras' | 'area' | 'date' | 'location' | 'maxQuotes' | 'contact' | 'review'
 
@@ -59,9 +59,23 @@ export default function ChatWizard() {
     const [loading, setLoading] = useState(false)
     const endRef = useRef<HTMLDivElement>(null)
 
+    const searchParams = useSearchParams()
+    const autoSelected = useRef(false)
+
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [history, currentStep])
+
+    useEffect(() => {
+        const category = searchParams.get('category')
+        if (category && !autoSelected.current && currentStep === 'service') {
+            autoSelected.current = true
+            // Use a small timeout to make it feel natural after load
+            setTimeout(() => {
+                handleAnswer('serviceType', category)
+            }, 600)
+        }
+    }, [searchParams, currentStep])
 
     const jumpToStep = (targetStep: Step) => {
         // 1. Set the current step back to the target
@@ -142,7 +156,7 @@ export default function ChatWizard() {
     // 1. Service
     const StepService = () => (
         <div className="flex flex-col gap-3">
-            {['이사청소', '입주청소', '거주청소', '부분청소', '기타'].map(opt => (
+            {['입주청소', '거주청소', '가전/가구', '사업장', '특수청소', '이사청소', '기타'].map(opt => (
                 <OptionButton key={opt} onClick={() => handleAnswer('serviceType', opt)}>
                     {opt}
                 </OptionButton>

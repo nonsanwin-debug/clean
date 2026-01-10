@@ -5,12 +5,11 @@ import { Search, Home, Truck, PaintBucket, Sparkles, Building2, CalendarDays, Wa
 
 export default function HomePage() {
   const services = [
-    { name: "이사/청소", icon: Truck, color: "text-blue-600", bg: "bg-blue-100" },
     { name: "입주청소", icon: Home, color: "text-green-600", bg: "bg-green-100" },
-    { name: "가전/가구", icon: Sparkles, color: "text-purple-600", bg: "bg-purple-100" },
+    { name: "거주청소", icon: Sparkles, color: "text-purple-600", bg: "bg-purple-100" },
+    { name: "가전/가구", icon: Truck, color: "text-blue-600", bg: "bg-blue-100" },
     { name: "사업장", icon: Building2, color: "text-orange-600", bg: "bg-orange-100" },
     { name: "특수청소", icon: PaintBucket, color: "text-red-600", bg: "bg-red-100" },
-    { name: "전체보기", icon: Search, color: "text-gray-600", bg: "bg-gray-100" },
   ];
 
   return (
@@ -34,7 +33,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-3 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
           {services.map((service, idx) => (
-            <Link href="/request" key={idx} className="flex flex-col items-center gap-2 group cursor-pointer p-4 hover:bg-gray-50 rounded-xl transition-colors">
+            <Link href={`/request?category=${service.name}`} key={idx} className="flex flex-col items-center gap-2 group cursor-pointer p-4 hover:bg-gray-50 rounded-xl transition-colors">
               <div className={`w-12 h-12 rounded-xl ${service.bg} flex items-center justify-center mb-1 group-hover:scale-110 transition-transform`}>
                 <service.icon className={`w-6 h-6 ${service.color}`} />
               </div>
