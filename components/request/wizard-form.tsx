@@ -328,7 +328,7 @@ export default function ChatWizard() {
         <div className="max-w-md mx-auto h-[calc(100vh-64px)] flex flex-col bg-white shadow-xl">
             {/* Header */}
             <div className="h-14 border-b flex items-center justify-center font-bold bg-white z-10">
-                AI 스마트 견적
+                AI 스마트 견적 (비회원 가능)
             </div>
 
             {/* Chat Area */}
