@@ -284,13 +284,21 @@ export default function ChatWizard() {
 
     // 9. Date
     const StepDate = () => (
-        <div className="flex flex-col gap-2">
-            <Button variant="outline" className="justify-start h-12" onClick={() => handleAnswer('dateType', '날짜 협의 가능')}>협의 가능해요</Button>
-            <Button variant="outline" className="justify-start h-12" onClick={() => handleAnswer('dateType', '가능한 빨리')}>가능한 빨리</Button>
-            <div className="flex gap-2">
-                <Input type="date" className="h-12" onChange={(e) => {
-                    if (e.target.value) handleAnswer('date', e.target.value, e.target.value)
-                }} />
+        <div className="flex flex-col gap-3">
+            <Button variant="outline" className="justify-start h-14 text-lg rounded-xl" onClick={() => handleAnswer('dateType', '날짜 협의 가능')}>협의 가능해요</Button>
+            <Button variant="outline" className="justify-start h-14 text-lg rounded-xl" onClick={() => handleAnswer('dateType', '가능한 빨리')}>가능한 빨리</Button>
+            <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none text-lg">
+                    📅 직접 날짜 선택
+                </div>
+                <Input
+                    type="date"
+                    className="h-14 text-lg pl-36 rounded-xl bg-white"
+                    min={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => {
+                        if (e.target.value) handleAnswer('date', e.target.value, e.target.value)
+                    }}
+                />
             </div>
         </div>
     )
