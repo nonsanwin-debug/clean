@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { submitRequest } from '@/app/request/actions'
+import { submitRequest } from '../../../app/request/actions'
 import { Loader2, Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
