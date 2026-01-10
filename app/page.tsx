@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Home, Truck, Paintbucket, Sparkles, Building2, CalendarDays, Wallet, UserCheck } from "lucide-react";
+import { Search, Home, Truck, PaintBucket, Sparkles, Building2, CalendarDays, Wallet, UserCheck } from "lucide-react";
 
 export default function HomePage() {
   const services = [
@@ -9,7 +9,7 @@ export default function HomePage() {
     { name: "입주청소", icon: Home, color: "text-green-600", bg: "bg-green-100" },
     { name: "가전/가구", icon: Sparkles, color: "text-purple-600", bg: "bg-purple-100" },
     { name: "사업장", icon: Building2, color: "text-orange-600", bg: "bg-orange-100" },
-    { name: "특수청소", icon: Paintbucket, color: "text-red-600", bg: "bg-red-100" },
+    { name: "특수청소", icon: PaintBucket, color: "text-red-600", bg: "bg-red-100" },
     { name: "전체보기", icon: Search, color: "text-gray-600", bg: "bg-gray-100" },
   ];
 
