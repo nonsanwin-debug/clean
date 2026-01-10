@@ -3,15 +3,18 @@
 import React, { useState } from 'react'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { sendQuote } from '@/app/partner/actions'
-import { MapPin, Calendar, CheckCircle, DollarSign, Send } from 'lucide-react'
+import {
+    MapPin, Calendar, CheckCircle2, DollarSign, Send,
+    Home, Maximize2, Layers, AlertCircle, User, Phone
+} from 'lucide-react'
 
-// Types (simplified for demo)
+// Types
 type Request = {
     id: string
     created_at: string
@@ -23,7 +26,6 @@ type Request = {
     description: string
     customer_name: string
     customer_phone: string
-    // Detailed fields
     building_type?: string
     room_count?: string
     bathroom_count?: string
@@ -50,7 +52,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
         try {
             const result = await sendQuote({
                 requestId: selectedRequest.id,
-                price: parseInt(price.replace(/,/g, '')), // Remove commas
+                price: parseInt(price.replace(/,/g, '')),
                 message
             })
 
@@ -70,41 +72,52 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
 
     if (!requests || requests.length === 0) {
         return (
-            <div className="flex h-[500px] items-center justify-center text-muted-foreground">
-                도착한 견적 요청이 없습니다.
+            <div className="flex h-[80vh] items-center justify-center text-muted-foreground flex-col gap-4">
+                <div className="bg-gray-100 p-6 rounded-full">
+                    <AlertCircle className="w-12 h-12 text-gray-400" />
+                </div>
+                <p className="text-lg">도착한 견적 요청이 없습니다.</p>
             </div>
         )
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-64px)] overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-64px)] overflow-hidden bg-gray-50/30">
             {/* Left Column: Request List */}
-            <div className="md:col-span-3 border-r bg-gray-50/50 overflow-y-auto h-full">
-                <div className="p-4 border-b bg-white sticky top-0 z-10">
-                    <h2 className="font-bold text-lg">받은 요청</h2>
-                    <p className="text-xs text-muted-foreground">총 {requests.length}건중 선택</p>
+            <div className="md:col-span-3 border-r bg-white overflow-y-auto h-full flex flex-col">
+                <div className="p-5 border-b bg-white/95 backdrop-blur sticky top-0 z-10">
+                    <h2 className="font-bold text-xl text-gray-900">받은 요청함</h2>
+                    <p className="text-sm text-gray-500 mt-1">총 {requests.length}개의 새로운 요청이 있습니다.</p>
                 </div>
-                <div className="divide-y">
+                <div className="divide-y divide-gray-100">
                     {requests.map(req => (
                         <div
                             key={req.id}
-                            className={`p-4 cursor-pointer transition-colors hover:bg-gray-100 ${selectedRequest?.id === req.id ? 'bg-white border-l-4 border-l-primary shadow-sm' : ''
+                            className={`p-5 cursor-pointer transition-all duration-200 hover:bg-gray-50 relative group ${selectedRequest?.id === req.id ? 'bg-blue-50/50' : ''
                                 }`}
                             onClick={() => setSelectedRequest(req)}
                         >
-                            <div className="flex justify-between items-start mb-1">
-                                <span className="font-medium truncate">{req.customer_name}님 요청</span>
-                                <span className="text-xs text-muted-foreground whitespace-nowrap">
+                            {selectedRequest?.id === req.id && (
+                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#7353EA]" />
+                            )}
+                            <div className="flex justify-between items-start mb-2">
+                                <Badge variant={req.status === 'pending' ? 'default' : 'secondary'} className={`${req.status === 'pending' ? 'bg-[#7353EA] hover:bg-[#7353EA]/90' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                    }`}>
+                                    {req.status === 'pending' ? '매칭중' : req.status}
+                                </Badge>
+                                <span className="text-xs text-gray-400 font-medium whitespace-nowrap">
                                     {format(new Date(req.created_at), 'MM/dd HH:mm')}
                                 </span>
                             </div>
-                            <h3 className="font-bold text-primary mb-2">{req.service_type}</h3>
-                            <div className="text-sm text-gray-500 space-y-1">
-                                <div className="flex items-center gap-1">
-                                    <MapPin className="w-3 h-3" /> {req.location}
+                            <h3 className="font-bold text-gray-900 text-lg mb-2 group-hover:text-[#7353EA] transition-colors">{req.service_type}</h3>
+                            <div className="space-y-1.5">
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <MapPin className="w-3.5 h-3.5" />
+                                    <span className="truncate">{req.location}</span>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                    <Calendar className="w-3 h-3" /> {req.target_date || '날짜 미정'}
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <Calendar className="w-3.5 h-3.5" />
+                                    <span>{req.target_date || '날짜 미정'}</span>
                                 </div>
                             </div>
                         </div>
@@ -112,149 +125,216 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                 </div>
             </div>
 
-            {/* Center Column: Request Detail */}
-            <div className="md:col-span-6 border-r overflow-y-auto h-full bg-white p-6">
+            {/* Center Column: Request Detail (Enhanced Design) */}
+            <div className="md:col-span-6 overflow-y-auto h-full bg-[#f8f9fc] p-8">
                 {selectedRequest ? (
-                    <div className="space-y-6 max-w-2xl mx-auto">
-                        <div className="border-b pb-4">
-                            <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-                                <Badge variant="secondary">{selectedRequest.status === 'pending' ? '매칭중' : selectedRequest.status}</Badge>
-                                <span>{format(new Date(selectedRequest.created_at), 'yyyy년 MM월 dd일 요청')}</span>
+                    <div className="max-w-3xl mx-auto space-y-8 pb-10">
+                        {/* Header Section */}
+                        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Badge variant="outline" className="px-3 py-1 border-[#7353EA] text-[#7353EA] bg-[#7353EA]/5">
+                                    {selectedRequest.service_type}
+                                </Badge>
+                                <span className="text-gray-400 text-sm">
+                                    요청번호 #{selectedRequest.id.slice(0, 8)}
+                                </span>
                             </div>
-                            <h1 className="text-2xl font-bold mb-2">{selectedRequest.service_type} 견적 요청</h1>
-                            <p className="flex items-center gap-1 text-gray-600">
-                                <MapPin className="w-4 h-4" /> {selectedRequest.location}
+                            <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
+                                {selectedRequest.sq_ft}평 {selectedRequest.building_type || '건물'} 청소 견적 요청
+                            </h1>
+                            <p className="flex items-center gap-2 text-gray-500 text-lg">
+                                <MapPin className="w-5 h-5 text-gray-400" />
+                                {selectedRequest.location}
                             </p>
                         </div>
 
-                        <div className="space-y-4">
-                            <h3 className="font-bold text-lg">요청 상세 정보</h3>
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div className="p-3 bg-gray-50 rounded-lg">
-                                    <span className="text-gray-500 block mb-1">건물 유형</span>
-                                    <span className="font-medium">{selectedRequest.building_type || '-'}</span>
+                        {/* Customer Info Card (Privacy Protected) */}
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-10">
+                                <CheckCircle2 className="w-32 h-32 text-[#7353EA]" />
+                            </div>
+                            <div className="flex items-start gap-4 relative z-10">
+                                <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
+                                    <User className="w-6 h-6 text-blue-600" />
                                 </div>
-                                <div className="p-3 bg-gray-50 rounded-lg">
-                                    <span className="text-gray-500 block mb-1">평수/면적</span>
-                                    <span className="font-medium">{selectedRequest.sq_ft}평</span>
-                                </div>
-                                <div className="p-3 bg-gray-50 rounded-lg">
-                                    <span className="text-gray-500 block mb-1">구조 (방/화장실/베란다)</span>
-                                    <span className="font-medium">
-                                        방 {selectedRequest.room_count || 0}, 화장실 {selectedRequest.bathroom_count || 0}, 베란다 {selectedRequest.veranda_count || 0}
-                                    </span>
-                                </div>
-                                <div className="p-3 bg-gray-50 rounded-lg">
-                                    <span className="text-gray-500 block mb-1">희망 날짜</span>
-                                    <span className="font-medium">{selectedRequest.target_date || '협의 가능'}</span>
-                                </div>
-
-                                <div className="p-3 bg-gray-50 rounded-lg col-span-2">
-                                    <span className="text-gray-500 block mb-1">특이 사항 (Features)</span>
-                                    <div className="flex flex-wrap gap-1 mt-1">
-                                        {selectedRequest.features && selectedRequest.features.length > 0
-                                            ? selectedRequest.features.map((f, i) => <Badge key={i} variant="outline" className="bg-white">{f}</Badge>)
-                                            : <span className="text-gray-400">없음</span>
-                                        }
+                                <div>
+                                    <h3 className="font-bold text-lg text-gray-900">고객 정보 (안심 보호 중)</h3>
+                                    <div className="mt-2 space-y-1">
+                                        <p className="text-gray-600 flex items-center gap-2">
+                                            <span className="font-medium text-gray-900">{selectedRequest.customer_name.slice(0, 1)}** 고객님</span>
+                                        </p>
+                                        <p className="text-blue-600 font-medium flex items-center gap-2 bg-blue-50 px-3 py-1 rounded-lg w-fit">
+                                            <Phone className="w-3.5 h-3.5" />
+                                            010-****-**** (견적 발송 시 연결)
+                                        </p>
                                     </div>
-                                </div>
-
-                                <div className="p-3 bg-gray-50 rounded-lg col-span-2">
-                                    <span className="text-gray-500 block mb-1">추가 요청 서비스</span>
-                                    <div className="flex flex-wrap gap-1 mt-1">
-                                        {selectedRequest.extra_services && selectedRequest.extra_services.length > 0
-                                            ? selectedRequest.extra_services.map((f, i) => <Badge key={i} variant="secondary">{f}</Badge>)
-                                            : <span className="text-gray-400">없음</span>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div className="p-3 bg-gray-50 rounded-lg col-span-2">
-                                    <span className="text-gray-500 block mb-1">추가 설명</span>
-                                    <p className="whitespace-pre-wrap">{selectedRequest.description || '특이사항 없음'}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-blue-50 p-4 rounded-xl flex items-start gap-3">
-                            <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
-                            <div>
-                                <h4 className="font-bold text-blue-900">고객님 정보 (안심보호)</h4>
-                                <p className="text-sm text-blue-700 mt-1">
-                                    이름: {selectedRequest.customer_name.slice(0, 1)}**<br />
-                                    연락처: 010-****-**** (견적 발송 시 연결됨)
-                                </p>
+                        {/* Detail Grid */}
+                        <div>
+                            <h3 className="font-bold text-gray-900 text-lg mb-4">상세 요청 정보</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                <DetailCard
+                                    icon={<Home className="w-5 h-5 text-[#7353EA]" />}
+                                    label="건물 유형"
+                                    value={selectedRequest.building_type || '-'}
+                                />
+                                <DetailCard
+                                    icon={<Maximize2 className="w-5 h-5 text-blue-500" />}
+                                    label="평수 (공급면적)"
+                                    value={`${selectedRequest.sq_ft}평`}
+                                />
+                                <DetailCard
+                                    icon={<Layers className="w-5 h-5 text-orange-500" />}
+                                    label="내부 구조"
+                                    value={`방 ${selectedRequest.room_count || 0} · 화장실 ${selectedRequest.bathroom_count || 0} · 베란다 ${selectedRequest.veranda_count || 0}`}
+                                    className="col-span-2"
+                                />
+                                <DetailCard
+                                    icon={<Calendar className="w-5 h-5 text-green-500" />}
+                                    label="희망 서비스 날짜"
+                                    value={selectedRequest.target_date || '날짜 협의 가능'}
+                                />
                             </div>
+                        </div>
+
+                        {/* Additional Info */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-[#7353EA]" />
+                                    특이사항 (Features)
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {selectedRequest.features?.length ? (
+                                        selectedRequest.features.map((f, i) => (
+                                            <Badge key={i} variant="outline" className="px-3 py-1.5 border-gray-200 bg-gray-50 text-gray-700">
+                                                {f}
+                                            </Badge>
+                                        ))
+                                    ) : <span className="text-gray-400 text-sm">없음</span>}
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                                    추가 요청 서비스
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {selectedRequest.extra_services?.length ? (
+                                        selectedRequest.extra_services.map((f, i) => (
+                                            <Badge key={i} variant="secondary" className="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100">
+                                                {f}
+                                            </Badge>
+                                        ))
+                                    ) : <span className="text-gray-400 text-sm">없음</span>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                            <h4 className="font-bold text-gray-900 mb-2">고객 추가 전달사항</h4>
+                            <p className="text-gray-600 whitespace-pre-wrap leading-relaxed">
+                                {selectedRequest.description || "특별히 남기신 내용이 없습니다."}
+                            </p>
                         </div>
                     </div>
                 ) : (
-                    <div className="flex h-full items-center justify-center text-gray-400">
-                        왼쪽에서 요청을 선택해주세요.
+                    <div className="flex h-full items-center justify-center text-gray-400 flex-col">
+                        <Layers className="w-16 h-16 mb-4 text-gray-200" />
+                        <p>왼쪽 목록에서 요청을 선택하여 상세 내용을 확인하세요.</p>
                     </div>
                 )}
             </div>
 
-            {/* Right Column: Quote Form */}
-            <div className="md:col-span-3 bg-gray-50 h-full p-4 border-l overflow-y-auto">
+            {/* Right Column: Work Area */}
+            <div className="md:col-span-3 bg-white border-l h-full flex flex-col shadow-xl z-20">
                 {selectedRequest ? (
-                    <div className="sticky top-4 space-y-4">
-                        <div className="bg-white p-4 rounded-xl shadow-sm border">
-                            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                                <DollarSign className="w-5 h-5" /> 견적 보내기
+                    <div className="flex flex-col h-full">
+                        <div className="p-6 border-b">
+                            <h3 className="font-bold text-lg flex items-center gap-2 text-gray-900">
+                                <DollarSign className="w-5 h-5 text-[#7353EA]" />
+                                견적서 작성
                             </h3>
+                            <p className="text-sm text-gray-500 mt-1">고객님께 보낼 합리적인 금액을 제안하세요.</p>
+                        </div>
 
+                        <div className="flex-1 overflow-y-auto p-6 space-y-6">
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium">예상 견적 금액 (원)</label>
-                                    <div className="relative">
+                                    <label className="text-sm font-bold text-gray-700">총 예상 금액 (VAT 포함)</label>
+                                    <div className="relative transform transition-all focus-within:scale-[1.02]">
                                         <Input
-                                            type="number"
-                                            placeholder="예: 350000"
-                                            className="pl-8 font-bold text-lg"
+                                            type="text"
+                                            placeholder="0"
+                                            className="h-14 pl-10 font-bold text-2xl border-gray-200 bg-gray-50 focus:bg-white transition-colors"
                                             value={price}
-                                            onChange={(e) => setPrice(e.target.value)}
+                                            onChange={(e) => {
+                                                const val = e.target.value.replace(/[^0-9]/g, '');
+                                                setPrice(val ? parseInt(val).toLocaleString() : '');
+                                            }}
                                         />
-                                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₩</span>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl font-medium">₩</span>
                                     </div>
-                                    <p className="text-xs text-muted-foreground">
-                                        고객님의 예산 범위 내에서 합리적인 금액을 제안해주세요.
+                                    <p className="text-xs text-blue-600 font-medium">
+                                        * 평균 시세: 350,000원 ~ 400,000원
                                     </p>
                                 </div>
 
+                                <div className="h-px bg-gray-100 my-4" />
+
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium">견적 설명 (선택)</label>
+                                    <label className="text-sm font-bold text-gray-700">견적 상세 설명 (어필하기)</label>
                                     <Textarea
-                                        placeholder="견적에 대한 상세 설명이나 어필하고 싶은 내용을 적어주세요."
-                                        className="h-32 resize-none"
+                                        placeholder={`예시)\n안녕하세요, 친환경 세제만을 사용하는 청소마스터입니다.\n곰팡이 제거 무료 서비스 포함 위 가격으로 진행 가능합니다.`}
+                                        className="h-48 resize-none p-4 text-base border-gray-200 bg-gray-50 focus:bg-white transition-colors leading-relaxed"
                                         value={message}
                                         onChange={(e) => setMessage(e.target.value)}
                                     />
                                 </div>
-
-                                <Button
-                                    className="w-full h-12 text-lg font-bold"
-                                    onClick={handleSendQuote}
-                                    disabled={sending}
-                                >
-                                    {sending ? <span className="flex items-center gap-2">보내는 중...</span> : <span className="flex items-center gap-2"><Send className="w-4 h-4" /> 견적서 발송</span>}
-                                </Button>
                             </div>
                         </div>
 
-                        <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-100 text-sm text-yellow-800">
-                            <strong>💡 견적 발송 팁</strong>
-                            <ul className="list-disc pl-4 mt-2 space-y-1 text-xs">
-                                <li>상세한 견적 내용을 작성하면 채택 확률이 올라갑니다.</li>
-                                <li>비슷한 평수의 평균 견적가는 30~40만원 입니다.</li>
-                                <li>고객님은 최대 5개의 견적만 받아볼 수 있습니다.</li>
-                            </ul>
+                        <div className="p-6 border-t bg-gray-50">
+                            <Button
+                                className="w-full h-14 text-lg font-bold bg-[#7353EA] hover:bg-[#7353EA]/90 transition-all shadow-lg shadow-indigo-200"
+                                onClick={handleSendQuote}
+                                disabled={sending}
+                            >
+                                {sending ? (
+                                    <span className="flex items-center gap-2">발송 중...</span>
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        <Send className="w-5 h-5" /> 견적서 무료 발송하기
+                                    </span>
+                                )}
+                            </Button>
+                            <p className="text-xs text-center text-gray-400 mt-3">
+                                고객님이 견적을 확정하면 연락처가 공개됩니다.
+                            </p>
                         </div>
                     </div>
                 ) : (
-                    <div className="flex h-full items-center justify-center text-gray-400 text-sm text-center px-4">
-                        요청을 선택하면 견적을 보낼 수 있습니다.
+                    <div className="flex h-full items-center justify-center text-gray-400 text-sm p-8 text-center bg-gray-50">
+                        선택된 요청이 없습니다.
                     </div>
                 )}
+            </div>
+        </div>
+    )
+}
+
+function DetailCard({ icon, label, value, className = '' }: { icon: React.ReactNode, label: string, value: string, className?: string }) {
+    return (
+        <div className={`bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-start gap-4 ${className}`}>
+            <div className="p-2.5 bg-gray-50 rounded-xl shrink-0">
+                {icon}
+            </div>
+            <div>
+                <p className="text-sm text-gray-500 font-medium mb-1">{label}</p>
+                <p className="text-gray-900 font-bold text-lg">{value}</p>
             </div>
         </div>
     )
