@@ -82,7 +82,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-64px)] overflow-hidden bg-[#F3F5F7]">
+        <div className="grid grid-cols-1 md:grid-cols-12 h-full overflow-hidden bg-[#F3F5F7]">
             {/* Left Column: Request List */}
             <div className="md:col-span-3 bg-white overflow-y-auto h-full flex flex-col">
                 <div className="p-5 bg-white sticky top-0 z-10">
@@ -271,7 +271,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             <p className="text-xs text-gray-500 mt-0.5">고객님께 제안할 금액을 입력해주세요.</p>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                        <div className="flex-1 overflow-y-auto p-5 space-y-6 custom-scrollbar">
                             <div className="space-y-4">
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-bold text-gray-900">총 예상 금액 (VAT 포함)</label>
@@ -300,7 +300,7 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                                     <label className="text-xs font-bold text-gray-900">견적 상세 설명 (어필하기)</label>
                                     <Textarea
                                         placeholder={`예시)\n안녕하세요, 친환경 세제만을 사용하는 청소마스터입니다.\n곰팡이 제거 무료 서비스 포함 위 가격으로 진행 가능합니다.`}
-                                        className="h-24 resize-none p-3 text-sm border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-xl"
+                                        className="h-40 resize-none p-4 text-sm border-gray-100 bg-gray-50 focus:bg-white focus:border-[#7353EA] transition-all leading-relaxed rounded-xl"
                                         value={message}
                                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                                     />
@@ -308,29 +308,29 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
                             </div>
                         </div>
 
-                        <Button
-                            className="w-full h-12 text-base font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl mt-4"
-                            onClick={handleSendQuote}
-                            disabled={sending}
-                        >
-                            {sending ? (
-                                <span className="flex items-center gap-2">발송 중...</span>
-                            ) : (
-                                <span className="flex items-center gap-2">
-                                    <Send className="w-5 h-5" /> 견적서 무료 발송하기
-                                </span>
-                            )}
-                        </Button>
-                        <div className="h-6" /> {/* Bottom spacer */}
+                        <div className="p-5 border-t border-gray-100 bg-gray-50/50 backdrop-blur pb-6">
+                            <Button
+                                className="w-full h-12 text-base font-bold bg-[#7353EA] hover:bg-[#6244C5] transition-all shadow-lg shadow-indigo-200 rounded-xl"
+                                onClick={handleSendQuote}
+                                disabled={sending}
+                            >
+                                {sending ? (
+                                    <span className="flex items-center gap-2">발송 중...</span>
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        <Send className="w-5 h-5" /> 견적서 무료 발송하기
+                                    </span>
+                                )}
+                            </Button>
+                        </div>
                     </div>
                 ) : (
                     <div className="flex h-full items-center justify-center text-gray-400 text-sm p-8 text-center bg-gray-50/50">
                         선택된 요청이 없습니다.
                     </div>
-                )
-                }
-            </div >
-        </div >
+                )}
+            </div>
+        </div>
     )
 }
 
