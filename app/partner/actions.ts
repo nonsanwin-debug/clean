@@ -14,6 +14,8 @@ export async function submitPartnerApplication(data: any) {
                 phone: data.phone,
                 area: data.area,
                 experience: data.experience,
+                categories: data.categories || [],
+                services: data.services || [],
                 status: 'pending'
             })
 
