@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { login, signup } from './actions'
-import { toast } from 'sonner' // Assuming sonner is installed, or use alert
+// import { toast } from 'sonner' - Removed causing build error
 
 export default function LoginPage() {
     const [loading, setLoading] = useState(false)
