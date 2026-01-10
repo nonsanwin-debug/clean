@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
+import { submitPartnerApplication } from '../actions'
 
 export default function PartnerApplyPage() {
     const router = useRouter()
@@ -17,16 +18,23 @@ export default function PartnerApplyPage() {
         experience: ''
     })
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
 
-        // Mock Submission
-        setTimeout(() => {
-            alert('신청이 성공적으로 접수되었습니다.\n담당자가 확인 후 연락드리겠습니다.')
-            router.push('/partner/login')
+        try {
+            const result = await submitPartnerApplication(formData)
+            if (result.success) {
+                alert(result.message)
+                router.push('/partner/login')
+            } else {
+                alert(result.message)
+            }
+        } catch (error) {
+            alert("오류가 발생했습니다.")
+        } finally {
             setLoading(false)
-        }, 1500)
+        }
     }
 
     return (
