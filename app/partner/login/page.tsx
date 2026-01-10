@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
@@ -62,7 +63,7 @@ export default function PartnerLoginPage() {
                 </CardContent>
                 <CardFooter className="justify-center">
                     <p className="text-sm text-muted-foreground">
-                        아직 파트너가 아니신가요? <span className="text-primary cursor-pointer hover:underline">파트너 등록 신청</span>
+                        아직 파트너가 아니신가요? <Link href="/partner/apply" className="text-primary cursor-pointer hover:underline">파트너 등록 신청</Link>
                     </p>
                 </CardFooter>
             </Card>
