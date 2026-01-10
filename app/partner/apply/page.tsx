@@ -57,7 +57,7 @@ export default function PartnerApplyPage() {
             <Card className="w-full max-w-2xl">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">
-                        파트너 회원가입
+                        파트너 회원가입 (Ver 2.0)
                     </CardTitle>
                     <CardDescription className="text-center">
                         서비스 제공을 위해 필수 정보를 입력해주세요.
