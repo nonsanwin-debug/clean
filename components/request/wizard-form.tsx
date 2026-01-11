@@ -276,8 +276,14 @@ export default function ChatWizard() {
         const [val, setVal] = useState('')
         return (
             <div className="flex gap-2">
-                <Input type="number" placeholder="예: 24" value={val} onChange={e => setVal(e.target.value)} className="h-12 text-lg" autoFocus />
-                <Button className="h-12 px-6" onClick={() => val && handleAnswer('sqFt', val, `${val}평`)}>입력</Button>
+                <Input type="number" placeholder="예: 24" value={val} onChange={e => setVal(e.target.value)} className="h-14 text-lg bg-white" autoFocus
+                    onFocus={(e) => {
+                        setTimeout(() => {
+                            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                        }, 300)
+                    }}
+                />
+                <Button className="h-14 px-6 text-lg shrink-0" onClick={() => val && handleAnswer('sqFt', val, `${val}평`)}>입력</Button>
             </div>
         )
     }
@@ -297,6 +303,11 @@ export default function ChatWizard() {
                     min={new Date().toISOString().split('T')[0]}
                     onChange={(e) => {
                         if (e.target.value) handleAnswer('date', e.target.value, e.target.value)
+                    }}
+                    onFocus={(e) => {
+                        setTimeout(() => {
+                            e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                        }, 300)
                     }}
                 />
             </div>
@@ -358,6 +369,11 @@ export default function ChatWizard() {
                             value={name}
                             onChange={e => setName(e.target.value)}
                             className="bg-white h-12"
+                            onFocus={(e) => {
+                                setTimeout(() => {
+                                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                                }, 300)
+                            }}
                         />
                     </div>
                     <div className="space-y-1">
@@ -367,6 +383,11 @@ export default function ChatWizard() {
                             value={phone}
                             onChange={e => setPhone(e.target.value)}
                             className="bg-white h-12"
+                            onFocus={(e) => {
+                                setTimeout(() => {
+                                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                                }, 300)
+                            }}
                         />
                     </div>
                 </div>
