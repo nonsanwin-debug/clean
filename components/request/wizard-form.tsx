@@ -123,7 +123,7 @@ export default function ChatWizard() {
             const result = await submitRequest(finalData)
             if (result.success) {
                 setHistory(prev => [...prev, { role: 'bot', text: "✅ 요청이 성공적으로 접수되었습니다! 곧 파트너님들의 견적이 도착합니다." }])
-                setTimeout(() => router.push('/partner/dashboard'), 2000) // Demo redirect
+                setTimeout(() => router.push('/'), 3000) // Redirect to Home in 3s
             } else {
                 setHistory(prev => [...prev, { role: 'bot', text: "❌ 오류가 발생했습니다: " + result.message }])
             }
