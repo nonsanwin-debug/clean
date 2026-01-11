@@ -63,7 +63,7 @@ export default function ChatWizard() {
     const autoSelected = useRef(false)
 
     useEffect(() => {
-        endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }, [history, currentStep])
 
     useEffect(() => {
