@@ -63,7 +63,7 @@ export default function ChatWizard() {
     const autoSelected = useRef(false)
 
     useEffect(() => {
-        endRef.current?.scrollIntoView({ behavior: 'smooth' })
+        endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }, [history, currentStep])
 
     useEffect(() => {
@@ -457,7 +457,7 @@ export default function ChatWizard() {
                     </div>
                 )}
                 <div ref={endRef} />
-                <div className="h-80" /> {/* Spacer for keyboard safety */}
+                <div className="h-80 md:h-24" /> {/* Spacer for mobile keyboard, smaller on PC */}
             </div>
         </div>
     )
