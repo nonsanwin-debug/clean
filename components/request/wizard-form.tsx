@@ -441,7 +441,7 @@ export default function ChatWizard() {
 
                 {/* Input Area (Dynamic) */}
                 {!loading && (
-                    <div className="mt-4 pb-80">
+                    <div className="mt-4">
                         {currentStep === 'service' && <StepService />}
                         {currentStep === 'building' && <StepBuilding />}
                         {currentStep === 'room' && <StepCount field="roomCount" />}
@@ -457,6 +457,7 @@ export default function ChatWizard() {
                     </div>
                 )}
                 <div ref={endRef} />
+                <div className="h-80" /> {/* Spacer for keyboard safety */}
             </div>
         </div>
     )
