@@ -457,7 +457,8 @@ export default function ChatWizard() {
                     </div>
                 )}
                 <div ref={endRef} />
-                <div className="h-80 md:h-24" /> {/* Spacer for mobile keyboard, smaller on PC */}
+                <div ref={endRef} />
+                <div className="h-[50vh] md:h-24" /> {/* Spacer for mobile keyboard, smaller on PC */}
             </div>
         </div>
     )
