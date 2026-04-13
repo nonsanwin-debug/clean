@@ -335,6 +335,8 @@ export default function DashboardClient({ requests }: { requests: Request[] }) {
 function DetailCard({ icon, label, value, className = '' }: { icon: React.ReactNode, label: string, value: string, className?: string }) {
     return (
         <div className={`bg-white p-4 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex items-start gap-3 ${className}`}>
+        
+        
             <div className="p-2.5 bg-gray-50 rounded-xl shrink-0">
                 {icon}
             </div>

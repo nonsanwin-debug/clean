@@ -115,3 +115,22 @@ export async function loginPartner(email: string) {
         return { success: false, message: '서버 오류가 발생했습니다.' }
     }
 }
+
+export async function updatePartnerBenefits(partnerId: string, benefits: string[]) {
+    const supabase = await createClient()
+
+    try {
+        const { error } = await supabase
+            .from('partners')
+            .update({ benefits })
+            .eq('id', partnerId)
+
+        if (error) throw error
+
+        revalidatePath(`/admin/partners/${partnerId}`)
+        return { success: true, message: '파트너 혜택이 업데이트 되었습니다.' }
+    } catch (e) {
+        console.error(e)
+        return { success: false, message: '혜택 업데이트 중 오류가 발생했습니다.' }
+    }
+}

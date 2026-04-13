@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import Link from "next/link"
 import { format } from "date-fns"
 import { Badge } from "@/components/ui/badge"
+import { PartnerBenefitsManager } from "@/components/admin/partner-benefits-manager"
 
 export default async function PartnerDetailPage({ params }: { params: { id: string } }) {
     const supabase = await createClient()
@@ -117,6 +118,11 @@ export default async function PartnerDetailPage({ params }: { params: { id: stri
                         </div>
                     </CardContent>
                 </Card>
+
+                <PartnerBenefitsManager 
+                    partnerId={partner.id} 
+                    initialBenefits={partner.benefits || []} 
+                />
             </div>
         </div>
     )
